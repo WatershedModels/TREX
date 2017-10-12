@@ -1,0 +1,1934 @@
+#TREX NMAKE File
+!IF "$(CFG)" == ""
+CFG=debug
+!MESSAGE No configuration specified. Defaulting to debug.
+!ENDIF 
+
+!IF "$(CFG)" != "release" && "$(CFG)" != "debug"
+!MESSAGE Invalid configuration "$(CFG)" specified.
+!MESSAGE You can specify a configuration when running NMAKE by
+!MESSAGE defining the macro CFG on the command line. For example:
+!MESSAGE 
+!MESSAGE NMAKE /f TREXwin64.mak CFG=debug
+!MESSAGE 
+!MESSAGE Possible choices for configuration are:
+!MESSAGE 
+!MESSAGE release   OR   debug
+!MESSAGE 
+!ERROR An invalid configuration is specified.
+!ENDIF 
+
+
+SRCDIR=..\TREX-Source-Code-080305
+
+!IF  "$(CFG)" == "release"
+
+OUTDIR=.
+INTDIR=.\Release
+
+TREXBIN=TREX.exe
+
+
+ALL : "$(OUTDIR)\$(TREXBIN)"
+
+
+CLEAN :
+	-@erase "$(INTDIR)\trex-r2.obj"
+	-@erase "$(INTDIR)\ChannelChemicalAdvection-r2.obj"
+	-@erase "$(INTDIR)\ChannelChemicalBiodegradation.obj"
+	-@erase "$(INTDIR)\ChannelChemicalConcentration-r3.obj"
+	-@erase "$(INTDIR)\ChannelChemicalDeposition.obj"
+	-@erase "$(INTDIR)\ChannelChemicalDispersion.obj"
+	-@erase "$(INTDIR)\ChannelChemicalDissolution.obj"
+	-@erase "$(INTDIR)\ChannelChemicalErosion.obj"
+	-@erase "$(INTDIR)\ChannelChemicalHydrolysis.obj"
+	-@erase "$(INTDIR)\ChannelChemicalKinetics.obj"
+	-@erase "$(INTDIR)\ChannelChemicalOxidation.obj"
+	-@erase "$(INTDIR)\ChannelChemicalPartitioning.obj"
+	-@erase "$(INTDIR)\ChannelChemicalPhotolysis.obj"
+	-@erase "$(INTDIR)\ChannelChemicalRadioactive.obj"
+	-@erase "$(INTDIR)\ChannelChemicalTransmissionLoss.obj"
+	-@erase "$(INTDIR)\ChannelChemicalUDReaction.obj"
+	-@erase "$(INTDIR)\ChannelChemicalVolatilization.obj"
+	-@erase "$(INTDIR)\ChannelChemicalYield.obj"
+	-@erase "$(INTDIR)\ChannelSolidsAdvection-r2.obj"
+	-@erase "$(INTDIR)\ChannelSolidsConcentration-r3.obj"
+	-@erase "$(INTDIR)\ChannelSolidsDeposition.obj"
+	-@erase "$(INTDIR)\ChannelSolidsDispersion.obj"
+	-@erase "$(INTDIR)\ChannelSolidsErosion.obj"
+	-@erase "$(INTDIR)\ChannelSolidsKinetics.obj"
+	-@erase "$(INTDIR)\ChannelSolidsMineralization.obj"
+	-@erase "$(INTDIR)\ChannelSolidsTransportCapacity-r2.obj"
+	-@erase "$(INTDIR)\ChannelSolidsYield.obj"
+	-@erase "$(INTDIR)\ChannelWaterDepth-r7.obj"
+	-@erase "$(INTDIR)\ChannelWaterRoute-r8.obj"
+	-@erase "$(INTDIR)\ChemicalBalance.obj"
+	-@erase "$(INTDIR)\ChemicalPropertyInit.obj"
+	-@erase "$(INTDIR)\ChemicalTransport.obj"
+	-@erase "$(INTDIR)\ComputeChannelElevation.obj"
+	-@erase "$(INTDIR)\ComputeChannelLength.obj"
+	-@erase "$(INTDIR)\ComputeChannelTopology-r5.obj"
+	-@erase "$(INTDIR)\ComputeChemicalGroupConcSums.obj"
+	-@erase "$(INTDIR)\ComputeChemicalGroupPhaseAve.obj"
+	-@erase "$(INTDIR)\ComputeChemicalGroupTransportSums.obj"
+	-@erase "$(INTDIR)\ComputeFinalState.obj"
+	-@erase "$(INTDIR)\ComputeFinalStateChemical.obj"
+	-@erase "$(INTDIR)\ComputeFinalStateSolids.obj"
+	-@erase "$(INTDIR)\ComputeFinalStateWater.obj"
+	-@erase "$(INTDIR)\ComputeInitialState.obj"
+	-@erase "$(INTDIR)\ComputeInitialStateChemical.obj"
+	-@erase "$(INTDIR)\ComputeInitialStateSolids.obj"
+	-@erase "$(INTDIR)\ComputeInitialStateWater.obj"
+	-@erase "$(INTDIR)\ComputeSolidsGroupConcSums.obj"
+	-@erase "$(INTDIR)\ComputeSolidsGroupTransportSums.obj"
+	-@erase "$(INTDIR)\FloodplainChemicalTransfer.obj"
+	-@erase "$(INTDIR)\FloodplainSolidsTransfer.obj"
+	-@erase "$(INTDIR)\FloodplainWaterTransfer.obj"
+	-@erase "$(INTDIR)\FreeMemory.obj"
+	-@erase "$(INTDIR)\FreeMemoryChemical.obj"
+	-@erase "$(INTDIR)\FreeMemoryEnvironment.obj"
+	-@erase "$(INTDIR)\FreeMemorySolids.obj"
+	-@erase "$(INTDIR)\FreeMemoryWater-r3.obj"
+	-@erase "$(INTDIR)\Grid-r2.obj"
+	-@erase "$(INTDIR)\Infiltration-r3.obj"
+	-@erase "$(INTDIR)\Initialize.obj"
+	-@erase "$(INTDIR)\InitializeChemical.obj"
+	-@erase "$(INTDIR)\InitializeEnvironment.obj"
+	-@erase "$(INTDIR)\InitializeSolids-r2.obj"
+	-@erase "$(INTDIR)\InitializeWater-r4.obj"
+	-@erase "$(INTDIR)\Interception-r2.obj"
+	-@erase "$(INTDIR)\NewState.obj"
+	-@erase "$(INTDIR)\NewStateChemical.obj"
+	-@erase "$(INTDIR)\NewStateSolids.obj"
+	-@erase "$(INTDIR)\NewStateStack.obj"
+	-@erase "$(INTDIR)\NewStateWater.obj"
+	-@erase "$(INTDIR)\OverlandChemicalAdvection-r2.obj"
+	-@erase "$(INTDIR)\OverlandChemicalBiodegradation.obj"
+	-@erase "$(INTDIR)\OverlandChemicalConcentration-r3.obj"
+	-@erase "$(INTDIR)\OverlandChemicalDeposition.obj"
+	-@erase "$(INTDIR)\OverlandChemicalDispersion.obj"
+	-@erase "$(INTDIR)\OverlandChemicalDissolution.obj"
+	-@erase "$(INTDIR)\OverlandChemicalErosion.obj"
+	-@erase "$(INTDIR)\OverlandChemicalHydrolysis.obj"
+	-@erase "$(INTDIR)\OverlandChemicalInfiltration.obj"
+	-@erase "$(INTDIR)\OverlandChemicalKinetics.obj"
+	-@erase "$(INTDIR)\OverlandChemicalOxidation.obj"
+	-@erase "$(INTDIR)\OverlandChemicalPartitioning.obj"
+	-@erase "$(INTDIR)\OverlandChemicalPhotolysis.obj"
+	-@erase "$(INTDIR)\OverlandChemicalRadioactive.obj"
+	-@erase "$(INTDIR)\OverlandChemicalUDReaction.obj"
+	-@erase "$(INTDIR)\OverlandChemicalVolatilization.obj"
+	-@erase "$(INTDIR)\OverlandChemicalYield.obj"
+	-@erase "$(INTDIR)\OverlandSolidsAdvection-r2.obj"
+	-@erase "$(INTDIR)\OverlandSolidsConcentration-r3.obj"
+	-@erase "$(INTDIR)\OverlandSolidsDeposition.obj"
+	-@erase "$(INTDIR)\OverlandSolidsDispersion.obj"
+	-@erase "$(INTDIR)\OverlandSolidsErosion.obj"
+	-@erase "$(INTDIR)\OverlandSolidsKinetics.obj"
+	-@erase "$(INTDIR)\OverlandSolidsMineralization.obj"
+	-@erase "$(INTDIR)\OverlandSolidsTransportCapacity-r3.obj"
+	-@erase "$(INTDIR)\OverlandSolidsYield.obj"
+	-@erase "$(INTDIR)\OverlandWaterDepth-r5.obj"
+	-@erase "$(INTDIR)\OverlandWaterRoute.obj"
+	-@erase "$(INTDIR)\PopSedimentStack.obj"
+	-@erase "$(INTDIR)\PopSoilStack.obj"
+	-@erase "$(INTDIR)\PushSedimentStack-r2.obj"
+	-@erase "$(INTDIR)\PushSoilStack.obj"
+	-@erase "$(INTDIR)\Rainfall-r3.obj"
+	-@erase "$(INTDIR)\ReadChannelEnvironmentFile.obj"
+	-@erase "$(INTDIR)\ReadChannelFile.obj"
+	-@erase "$(INTDIR)\ReadChannelFpocFile.obj"
+	-@erase "$(INTDIR)\ReadChannelTransmissionFile.obj"
+	-@erase "$(INTDIR)\ReadDataGroupA.obj"
+	-@erase "$(INTDIR)\ReadDataGroupB-r5.obj"
+	-@erase "$(INTDIR)\ReadDataGroupC-r4.obj"
+	-@erase "$(INTDIR)\ReadDataGroupD.obj"
+	-@erase "$(INTDIR)\ReadDataGroupE.obj"
+	-@erase "$(INTDIR)\ReadDataGroupF.obj"
+	-@erase "$(INTDIR)\ReadElevationFile.obj"
+	-@erase "$(INTDIR)\ReadGeneralEnvironmentFile.obj"
+	-@erase "$(INTDIR)\ReadGeneralTFPointerFile.obj"
+	-@erase "$(INTDIR)\ReadInitialChemicalChannelFile.obj"
+	-@erase "$(INTDIR)\ReadInitialChemicalOverlandFile.obj"
+	-@erase "$(INTDIR)\ReadInitialInfiltrationFile.obj"
+	-@erase "$(INTDIR)\ReadInitialSolidsChannelFile.obj"
+	-@erase "$(INTDIR)\ReadInitialSolidsOverlandFile.obj"
+	-@erase "$(INTDIR)\ReadInitialTransmissionLossFile.obj"
+	-@erase "$(INTDIR)\ReadInitialWaterChannelFile-r2.obj"
+	-@erase "$(INTDIR)\ReadInitialWaterOverlandFile-r2.obj"
+	-@erase "$(INTDIR)\ReadInputFile.obj"
+	-@erase "$(INTDIR)\ReadLandUseFile.obj"
+	-@erase "$(INTDIR)\ReadLinkFile.obj"
+	-@erase "$(INTDIR)\ReadMaskFile.obj"
+	-@erase "$(INTDIR)\ReadNodeFile-r2.obj"
+	-@erase "$(INTDIR)\ReadOverlandEnvironmentFile.obj"
+	-@erase "$(INTDIR)\ReadOverlandEnvironmentTFPointerFile.obj"
+	-@erase "$(INTDIR)\ReadOverlandFpocFile.obj"
+	-@erase "$(INTDIR)\ReadOverlandFpocTFPointerFile.obj"
+	-@erase "$(INTDIR)\ReadRainGridFile.obj"
+	-@erase "$(INTDIR)\ReadSedimentChemicalFile.obj"
+	-@erase "$(INTDIR)\ReadSedimentPropertiesFile.obj"
+	-@erase "$(INTDIR)\ReadSoilLayerChemicalFile.obj"
+	-@erase "$(INTDIR)\ReadSoilLayerThicknessFile.obj"
+	-@erase "$(INTDIR)\ReadSoilStackFile.obj"
+	-@erase "$(INTDIR)\ReadSoilTypeFile-r2.obj"
+	-@erase "$(INTDIR)\ReadStorageDepthFile.obj"
+	-@erase "$(INTDIR)\RunTime.obj"
+	-@erase "$(INTDIR)\SimulationError-r2.obj"
+	-@erase "$(INTDIR)\SolidsBalance.obj"
+	-@erase "$(INTDIR)\SolidsPropertyInit.obj"
+	-@erase "$(INTDIR)\SolidsTransport.obj"
+	-@erase "$(INTDIR)\StripString.obj"
+	-@erase "$(INTDIR)\TimeFunctionInit.obj"
+	-@erase "$(INTDIR)\TimeFunctionInitChemical.obj"
+	-@erase "$(INTDIR)\TimeFunctionInitEnvironment.obj"
+	-@erase "$(INTDIR)\TimeFunctionInitSolids.obj"
+	-@erase "$(INTDIR)\TimeFunctionInitWater.obj"
+	-@erase "$(INTDIR)\TransmissionLoss.obj"
+	-@erase "$(INTDIR)\UpdateEnvironment.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunction.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunctionChemical.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunctionEnvironment.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunctionSolids.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunctionWater.obj"
+	-@erase "$(INTDIR)\UtilityFunctions.obj"
+	-@erase "$(INTDIR)\WaterBalance.obj"
+	-@erase "$(INTDIR)\WaterTransport-r2.obj"
+	-@erase "$(INTDIR)\WriteDumpFile.obj"
+	-@erase "$(INTDIR)\WriteEndGrids.obj"
+	-@erase "$(INTDIR)\WriteEndGridsChemical.obj"
+	-@erase "$(INTDIR)\WriteEndGridsSolids.obj"
+	-@erase "$(INTDIR)\WriteEndGridsWater.obj"
+	-@erase "$(INTDIR)\WriteGrids.obj"
+	-@erase "$(INTDIR)\WriteGridsChemical.obj"
+	-@erase "$(INTDIR)\WriteGridsSolids.obj"
+	-@erase "$(INTDIR)\WriteGridsWater.obj"
+	-@erase "$(INTDIR)\WriteMassBalance.obj"
+	-@erase "$(INTDIR)\WriteMassBalanceChemical.obj"
+	-@erase "$(INTDIR)\WriteMassBalanceSolids.obj"
+	-@erase "$(INTDIR)\WriteMassBalanceWater.obj"
+	-@erase "$(INTDIR)\WriteSummary.obj"
+	-@erase "$(INTDIR)\WriteSummaryChemical.obj"
+	-@erase "$(INTDIR)\WriteSummarySolids.obj"
+	-@erase "$(INTDIR)\WriteSummaryWater-r3.obj"
+	-@erase "$(INTDIR)\WriteTimeSeries.obj"
+	-@erase "$(INTDIR)\WriteTimeSeriesChemical.obj"
+	-@erase "$(INTDIR)\WriteTimeSeriesSolids.obj"
+	-@erase "$(INTDIR)\WriteTimeSeriesWater.obj"
+	-@erase "$(OUTDIR)\$(TREXBIN)"
+
+
+"$(INTDIR)" :
+	-@if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
+
+
+"$(OUTDIR)" :
+	-@if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
+
+
+CC=icl.exe
+CFLAGS=/nologo /ML /W3 /fast /Fo"$(INTDIR)\\" /c
+
+
+.c{$(INTDIR)}.obj::
+   $(CC) @<<
+   $(CFLAGS) $< 
+<<
+
+
+LINK=icl.exe
+LINK_FLAGS=/nologo /ML /W3 /fast /Fe"$(OUTDIR)\$(TREXBIN)" 
+OBJS= \
+	"$(INTDIR)\trex-r2.obj" \
+	"$(INTDIR)\ChannelChemicalAdvection-r2.obj" \
+	"$(INTDIR)\ChannelChemicalBiodegradation.obj" \
+	"$(INTDIR)\ChannelChemicalConcentration-r3.obj" \
+	"$(INTDIR)\ChannelChemicalDeposition.obj" \
+	"$(INTDIR)\ChannelChemicalDispersion.obj" \
+	"$(INTDIR)\ChannelChemicalDissolution.obj" \
+	"$(INTDIR)\ChannelChemicalErosion.obj" \
+	"$(INTDIR)\ChannelChemicalHydrolysis.obj" \
+	"$(INTDIR)\ChannelChemicalKinetics.obj" \
+	"$(INTDIR)\ChannelChemicalOxidation.obj" \
+	"$(INTDIR)\ChannelChemicalPartitioning.obj" \
+	"$(INTDIR)\ChannelChemicalPhotolysis.obj" \
+	"$(INTDIR)\ChannelChemicalRadioactive.obj" \
+	"$(INTDIR)\ChannelChemicalTransmissionLoss.obj" \
+	"$(INTDIR)\ChannelChemicalUDReaction.obj" \
+	"$(INTDIR)\ChannelChemicalVolatilization.obj" \
+	"$(INTDIR)\ChannelChemicalYield.obj" \
+	"$(INTDIR)\ChannelSolidsAdvection-r2.obj" \
+	"$(INTDIR)\ChannelSolidsConcentration-r3.obj" \
+	"$(INTDIR)\ChannelSolidsDeposition.obj" \
+	"$(INTDIR)\ChannelSolidsDispersion.obj" \
+	"$(INTDIR)\ChannelSolidsErosion.obj" \
+	"$(INTDIR)\ChannelSolidsKinetics.obj" \
+	"$(INTDIR)\ChannelSolidsMineralization.obj" \
+	"$(INTDIR)\ChannelSolidsTransportCapacity-r2.obj" \
+	"$(INTDIR)\ChannelSolidsYield.obj" \
+	"$(INTDIR)\ChannelWaterDepth-r7.obj" \
+	"$(INTDIR)\ChannelWaterRoute-r8.obj" \
+	"$(INTDIR)\ChemicalBalance.obj" \
+	"$(INTDIR)\ChemicalPropertyInit.obj" \
+	"$(INTDIR)\ChemicalTransport.obj" \
+	"$(INTDIR)\ComputeChannelElevation.obj" \
+	"$(INTDIR)\ComputeChannelLength.obj" \
+	"$(INTDIR)\ComputeChannelTopology-r5.obj" \
+	"$(INTDIR)\ComputeChemicalGroupConcSums.obj" \
+	"$(INTDIR)\ComputeChemicalGroupPhaseAve.obj" \
+	"$(INTDIR)\ComputeChemicalGroupTransportSums.obj" \
+	"$(INTDIR)\ComputeFinalState.obj" \
+	"$(INTDIR)\ComputeFinalStateChemical.obj" \
+	"$(INTDIR)\ComputeFinalStateSolids.obj" \
+	"$(INTDIR)\ComputeFinalStateWater.obj" \
+	"$(INTDIR)\ComputeInitialState.obj" \
+	"$(INTDIR)\ComputeInitialStateChemical.obj" \
+	"$(INTDIR)\ComputeInitialStateSolids.obj" \
+	"$(INTDIR)\ComputeInitialStateWater.obj" \
+	"$(INTDIR)\ComputeSolidsGroupConcSums.obj" \
+	"$(INTDIR)\ComputeSolidsGroupTransportSums.obj" \
+	"$(INTDIR)\FloodplainChemicalTransfer.obj" \
+	"$(INTDIR)\FloodplainSolidsTransfer.obj" \
+	"$(INTDIR)\FloodplainWaterTransfer.obj" \
+	"$(INTDIR)\FreeMemory.obj" \
+	"$(INTDIR)\FreeMemoryChemical.obj" \
+	"$(INTDIR)\FreeMemoryEnvironment.obj" \
+	"$(INTDIR)\FreeMemorySolids.obj" \
+	"$(INTDIR)\FreeMemoryWater-r3.obj" \
+	"$(INTDIR)\Grid-r2.obj" \
+	"$(INTDIR)\Infiltration-r3.obj" \
+	"$(INTDIR)\Initialize.obj" \
+	"$(INTDIR)\InitializeChemical.obj" \
+	"$(INTDIR)\InitializeEnvironment.obj" \
+	"$(INTDIR)\InitializeSolids-r2.obj" \
+	"$(INTDIR)\InitializeWater-r4.obj" \
+	"$(INTDIR)\Interception-r2.obj" \
+	"$(INTDIR)\NewState.obj" \
+	"$(INTDIR)\NewStateChemical.obj" \
+	"$(INTDIR)\NewStateSolids.obj" \
+	"$(INTDIR)\NewStateStack.obj" \
+	"$(INTDIR)\NewStateWater.obj" \
+	"$(INTDIR)\OverlandChemicalAdvection-r2.obj" \
+	"$(INTDIR)\OverlandChemicalBiodegradation.obj" \
+	"$(INTDIR)\OverlandChemicalConcentration-r3.obj" \
+	"$(INTDIR)\OverlandChemicalDeposition.obj" \
+	"$(INTDIR)\OverlandChemicalDispersion.obj" \
+	"$(INTDIR)\OverlandChemicalDissolution.obj" \
+	"$(INTDIR)\OverlandChemicalErosion.obj" \
+	"$(INTDIR)\OverlandChemicalHydrolysis.obj" \
+	"$(INTDIR)\OverlandChemicalInfiltration.obj" \
+	"$(INTDIR)\OverlandChemicalKinetics.obj" \
+	"$(INTDIR)\OverlandChemicalOxidation.obj" \
+	"$(INTDIR)\OverlandChemicalPartitioning.obj" \
+	"$(INTDIR)\OverlandChemicalPhotolysis.obj" \
+	"$(INTDIR)\OverlandChemicalRadioactive.obj" \
+	"$(INTDIR)\OverlandChemicalUDReaction.obj" \
+	"$(INTDIR)\OverlandChemicalVolatilization.obj" \
+	"$(INTDIR)\OverlandChemicalYield.obj" \
+	"$(INTDIR)\OverlandSolidsAdvection-r2.obj" \
+	"$(INTDIR)\OverlandSolidsConcentration-r3.obj" \
+	"$(INTDIR)\OverlandSolidsDeposition.obj" \
+	"$(INTDIR)\OverlandSolidsDispersion.obj" \
+	"$(INTDIR)\OverlandSolidsErosion.obj" \
+	"$(INTDIR)\OverlandSolidsKinetics.obj" \
+	"$(INTDIR)\OverlandSolidsMineralization.obj" \
+	"$(INTDIR)\OverlandSolidsTransportCapacity-r3.obj" \
+	"$(INTDIR)\OverlandSolidsYield.obj" \
+	"$(INTDIR)\OverlandWaterDepth-r5.obj" \
+	"$(INTDIR)\OverlandWaterRoute.obj" \
+	"$(INTDIR)\PopSedimentStack.obj" \
+	"$(INTDIR)\PopSoilStack.obj" \
+	"$(INTDIR)\PushSedimentStack-r2.obj" \
+	"$(INTDIR)\PushSoilStack.obj" \
+	"$(INTDIR)\Rainfall-r3.obj" \
+	"$(INTDIR)\ReadChannelEnvironmentFile.obj" \
+	"$(INTDIR)\ReadChannelFile.obj" \
+	"$(INTDIR)\ReadChannelFpocFile.obj" \
+	"$(INTDIR)\ReadChannelTransmissionFile.obj" \
+	"$(INTDIR)\ReadDataGroupA.obj" \
+	"$(INTDIR)\ReadDataGroupB-r5.obj" \
+	"$(INTDIR)\ReadDataGroupC-r4.obj" \
+	"$(INTDIR)\ReadDataGroupD.obj" \
+	"$(INTDIR)\ReadDataGroupE.obj" \
+	"$(INTDIR)\ReadDataGroupF.obj" \
+	"$(INTDIR)\ReadElevationFile.obj" \
+	"$(INTDIR)\ReadGeneralEnvironmentFile.obj" \
+	"$(INTDIR)\ReadGeneralTFPointerFile.obj" \
+	"$(INTDIR)\ReadInitialChemicalChannelFile.obj" \
+	"$(INTDIR)\ReadInitialChemicalOverlandFile.obj" \
+	"$(INTDIR)\ReadInitialInfiltrationFile.obj" \
+	"$(INTDIR)\ReadInitialSolidsChannelFile.obj" \
+	"$(INTDIR)\ReadInitialSolidsOverlandFile.obj" \
+	"$(INTDIR)\ReadInitialTransmissionLossFile.obj" \
+	"$(INTDIR)\ReadInitialWaterChannelFile-r2.obj" \
+	"$(INTDIR)\ReadInitialWaterOverlandFile-r2.obj" \
+	"$(INTDIR)\ReadInputFile.obj" \
+	"$(INTDIR)\ReadLandUseFile.obj" \
+	"$(INTDIR)\ReadLinkFile.obj" \
+	"$(INTDIR)\ReadMaskFile.obj" \
+	"$(INTDIR)\ReadNodeFile-r2.obj" \
+	"$(INTDIR)\ReadOverlandEnvironmentFile.obj" \
+	"$(INTDIR)\ReadOverlandEnvironmentTFPointerFile.obj" \
+	"$(INTDIR)\ReadOverlandFpocFile.obj" \
+	"$(INTDIR)\ReadOverlandFpocTFPointerFile.obj" \
+	"$(INTDIR)\ReadRainGridFile.obj" \
+	"$(INTDIR)\ReadSedimentChemicalFile.obj" \
+	"$(INTDIR)\ReadSedimentPropertiesFile.obj" \
+	"$(INTDIR)\ReadSoilLayerChemicalFile.obj" \
+	"$(INTDIR)\ReadSoilLayerThicknessFile.obj" \
+	"$(INTDIR)\ReadSoilStackFile.obj" \
+	"$(INTDIR)\ReadSoilTypeFile-r2.obj" \
+	"$(INTDIR)\ReadStorageDepthFile.obj" \
+	"$(INTDIR)\RunTime.obj" \
+	"$(INTDIR)\SimulationError-r2.obj" \
+	"$(INTDIR)\SolidsBalance.obj" \
+	"$(INTDIR)\SolidsPropertyInit.obj" \
+	"$(INTDIR)\SolidsTransport.obj" \
+	"$(INTDIR)\StripString.obj" \
+	"$(INTDIR)\TimeFunctionInit.obj" \
+	"$(INTDIR)\TimeFunctionInitChemical.obj" \
+	"$(INTDIR)\TimeFunctionInitEnvironment.obj" \
+	"$(INTDIR)\TimeFunctionInitSolids.obj" \
+	"$(INTDIR)\TimeFunctionInitWater.obj" \
+	"$(INTDIR)\TransmissionLoss.obj" \
+	"$(INTDIR)\UpdateEnvironment.obj" \
+	"$(INTDIR)\UpdateTimeFunction.obj" \
+	"$(INTDIR)\UpdateTimeFunctionChemical.obj" \
+	"$(INTDIR)\UpdateTimeFunctionEnvironment.obj" \
+	"$(INTDIR)\UpdateTimeFunctionSolids.obj" \
+	"$(INTDIR)\UpdateTimeFunctionWater.obj" \
+	"$(INTDIR)\UtilityFunctions.obj" \
+	"$(INTDIR)\WaterBalance.obj" \
+	"$(INTDIR)\WaterTransport-r2.obj" \
+	"$(INTDIR)\WriteDumpFile.obj" \
+	"$(INTDIR)\WriteEndGrids.obj" \
+	"$(INTDIR)\WriteEndGridsChemical.obj" \
+	"$(INTDIR)\WriteEndGridsSolids.obj" \
+	"$(INTDIR)\WriteEndGridsWater.obj" \
+	"$(INTDIR)\WriteGrids.obj" \
+	"$(INTDIR)\WriteGridsChemical.obj" \
+	"$(INTDIR)\WriteGridsSolids.obj" \
+	"$(INTDIR)\WriteGridsWater.obj" \
+	"$(INTDIR)\WriteMassBalance.obj" \
+	"$(INTDIR)\WriteMassBalanceChemical.obj" \
+	"$(INTDIR)\WriteMassBalanceSolids.obj" \
+	"$(INTDIR)\WriteMassBalanceWater.obj" \
+	"$(INTDIR)\WriteSummary.obj" \
+	"$(INTDIR)\WriteSummaryChemical.obj" \
+	"$(INTDIR)\WriteSummarySolids.obj" \
+	"$(INTDIR)\WriteSummaryWater-r3.obj" \
+	"$(INTDIR)\WriteTimeSeries.obj" \
+	"$(INTDIR)\WriteTimeSeriesChemical.obj" \
+	"$(INTDIR)\WriteTimeSeriesSolids.obj" \
+	"$(INTDIR)\WriteTimeSeriesWater.obj"
+
+"$(OUTDIR)\$(TREXBIN)" : "$(OUTDIR)" $(OBJS)
+    $(LINK) @<<
+  $(LINK_FLAGS) $(OBJS)
+<<
+
+!ELSEIF  "$(CFG)" == "debug"
+
+OUTDIR=.
+INTDIR=.\Debug
+
+
+TREXBIN=TREXdbg.exe
+
+
+ALL : "$(OUTDIR)\$(TREXBIN)"
+
+
+CLEAN :
+	-@erase "$(INTDIR)\trex-r2.obj"
+	-@erase "$(INTDIR)\ChannelChemicalAdvection-r2.obj"
+	-@erase "$(INTDIR)\ChannelChemicalBiodegradation.obj"
+	-@erase "$(INTDIR)\ChannelChemicalConcentration-r3.obj"
+	-@erase "$(INTDIR)\ChannelChemicalDeposition.obj"
+	-@erase "$(INTDIR)\ChannelChemicalDispersion.obj"
+	-@erase "$(INTDIR)\ChannelChemicalDissolution.obj"
+	-@erase "$(INTDIR)\ChannelChemicalErosion.obj"
+	-@erase "$(INTDIR)\ChannelChemicalHydrolysis.obj"
+	-@erase "$(INTDIR)\ChannelChemicalKinetics.obj"
+	-@erase "$(INTDIR)\ChannelChemicalOxidation.obj"
+	-@erase "$(INTDIR)\ChannelChemicalPartitioning.obj"
+	-@erase "$(INTDIR)\ChannelChemicalPhotolysis.obj"
+	-@erase "$(INTDIR)\ChannelChemicalRadioactive.obj"
+	-@erase "$(INTDIR)\ChannelChemicalTransmissionLoss.obj"
+	-@erase "$(INTDIR)\ChannelChemicalUDReaction.obj"
+	-@erase "$(INTDIR)\ChannelChemicalVolatilization.obj"
+	-@erase "$(INTDIR)\ChannelChemicalYield.obj"
+	-@erase "$(INTDIR)\ChannelSolidsAdvection-r2.obj"
+	-@erase "$(INTDIR)\ChannelSolidsConcentration-r3.obj"
+	-@erase "$(INTDIR)\ChannelSolidsDeposition.obj"
+	-@erase "$(INTDIR)\ChannelSolidsDispersion.obj"
+	-@erase "$(INTDIR)\ChannelSolidsErosion.obj"
+	-@erase "$(INTDIR)\ChannelSolidsKinetics.obj"
+	-@erase "$(INTDIR)\ChannelSolidsMineralization.obj"
+	-@erase "$(INTDIR)\ChannelSolidsTransportCapacity-r2.obj"
+	-@erase "$(INTDIR)\ChannelSolidsYield.obj"
+	-@erase "$(INTDIR)\ChannelWaterDepth-r7.obj"
+	-@erase "$(INTDIR)\ChannelWaterRoute-r8.obj"
+	-@erase "$(INTDIR)\ChemicalBalance.obj"
+	-@erase "$(INTDIR)\ChemicalPropertyInit.obj"
+	-@erase "$(INTDIR)\ChemicalTransport.obj"
+	-@erase "$(INTDIR)\ComputeChannelElevation.obj"
+	-@erase "$(INTDIR)\ComputeChannelLength.obj"
+	-@erase "$(INTDIR)\ComputeChannelTopology-r5.obj"
+	-@erase "$(INTDIR)\ComputeChemicalGroupConcSums.obj"
+	-@erase "$(INTDIR)\ComputeChemicalGroupPhaseAve.obj"
+	-@erase "$(INTDIR)\ComputeChemicalGroupTransportSums.obj"
+	-@erase "$(INTDIR)\ComputeFinalState.obj"
+	-@erase "$(INTDIR)\ComputeFinalStateChemical.obj"
+	-@erase "$(INTDIR)\ComputeFinalStateSolids.obj"
+	-@erase "$(INTDIR)\ComputeFinalStateWater.obj"
+	-@erase "$(INTDIR)\ComputeInitialState.obj"
+	-@erase "$(INTDIR)\ComputeInitialStateChemical.obj"
+	-@erase "$(INTDIR)\ComputeInitialStateSolids.obj"
+	-@erase "$(INTDIR)\ComputeInitialStateWater.obj"
+	-@erase "$(INTDIR)\ComputeSolidsGroupConcSums.obj"
+	-@erase "$(INTDIR)\ComputeSolidsGroupTransportSums.obj"
+	-@erase "$(INTDIR)\FloodplainChemicalTransfer.obj"
+	-@erase "$(INTDIR)\FloodplainSolidsTransfer.obj"
+	-@erase "$(INTDIR)\FloodplainWaterTransfer.obj"
+	-@erase "$(INTDIR)\FreeMemory.obj"
+	-@erase "$(INTDIR)\FreeMemoryChemical.obj"
+	-@erase "$(INTDIR)\FreeMemoryEnvironment.obj"
+	-@erase "$(INTDIR)\FreeMemorySolids.obj"
+	-@erase "$(INTDIR)\FreeMemoryWater-r3.obj"
+	-@erase "$(INTDIR)\Grid-r2.obj"
+	-@erase "$(INTDIR)\Infiltration-r3.obj"
+	-@erase "$(INTDIR)\Initialize.obj"
+	-@erase "$(INTDIR)\InitializeChemical.obj"
+	-@erase "$(INTDIR)\InitializeEnvironment.obj"
+	-@erase "$(INTDIR)\InitializeSolids-r2.obj"
+	-@erase "$(INTDIR)\InitializeWater-r4.obj"
+	-@erase "$(INTDIR)\Interception-r2.obj"
+	-@erase "$(INTDIR)\NewState.obj"
+	-@erase "$(INTDIR)\NewStateChemical.obj"
+	-@erase "$(INTDIR)\NewStateSolids.obj"
+	-@erase "$(INTDIR)\NewStateStack.obj"
+	-@erase "$(INTDIR)\NewStateWater.obj"
+	-@erase "$(INTDIR)\OverlandChemicalAdvection-r2.obj"
+	-@erase "$(INTDIR)\OverlandChemicalBiodegradation.obj"
+	-@erase "$(INTDIR)\OverlandChemicalConcentration-r3.obj"
+	-@erase "$(INTDIR)\OverlandChemicalDeposition.obj"
+	-@erase "$(INTDIR)\OverlandChemicalDispersion.obj"
+	-@erase "$(INTDIR)\OverlandChemicalDissolution.obj"
+	-@erase "$(INTDIR)\OverlandChemicalErosion.obj"
+	-@erase "$(INTDIR)\OverlandChemicalHydrolysis.obj"
+	-@erase "$(INTDIR)\OverlandChemicalInfiltration.obj"
+	-@erase "$(INTDIR)\OverlandChemicalKinetics.obj"
+	-@erase "$(INTDIR)\OverlandChemicalOxidation.obj"
+	-@erase "$(INTDIR)\OverlandChemicalPartitioning.obj"
+	-@erase "$(INTDIR)\OverlandChemicalPhotolysis.obj"
+	-@erase "$(INTDIR)\OverlandChemicalRadioactive.obj"
+	-@erase "$(INTDIR)\OverlandChemicalUDReaction.obj"
+	-@erase "$(INTDIR)\OverlandChemicalVolatilization.obj"
+	-@erase "$(INTDIR)\OverlandChemicalYield.obj"
+	-@erase "$(INTDIR)\OverlandSolidsAdvection-r2.obj"
+	-@erase "$(INTDIR)\OverlandSolidsConcentration-r3.obj"
+	-@erase "$(INTDIR)\OverlandSolidsDeposition.obj"
+	-@erase "$(INTDIR)\OverlandSolidsDispersion.obj"
+	-@erase "$(INTDIR)\OverlandSolidsErosion.obj"
+	-@erase "$(INTDIR)\OverlandSolidsKinetics.obj"
+	-@erase "$(INTDIR)\OverlandSolidsMineralization.obj"
+	-@erase "$(INTDIR)\OverlandSolidsTransportCapacity-r3.obj"
+	-@erase "$(INTDIR)\OverlandSolidsYield.obj"
+	-@erase "$(INTDIR)\OverlandWaterDepth-r5.obj"
+	-@erase "$(INTDIR)\OverlandWaterRoute.obj"
+	-@erase "$(INTDIR)\PopSedimentStack.obj"
+	-@erase "$(INTDIR)\PopSoilStack.obj"
+	-@erase "$(INTDIR)\PushSedimentStack-r2.obj"
+	-@erase "$(INTDIR)\PushSoilStack.obj"
+	-@erase "$(INTDIR)\Rainfall-r3.obj"
+	-@erase "$(INTDIR)\ReadChannelEnvironmentFile.obj"
+	-@erase "$(INTDIR)\ReadChannelFile.obj"
+	-@erase "$(INTDIR)\ReadChannelFpocFile.obj"
+	-@erase "$(INTDIR)\ReadChannelTransmissionFile.obj"
+	-@erase "$(INTDIR)\ReadDataGroupA.obj"
+	-@erase "$(INTDIR)\ReadDataGroupB-r5.obj"
+	-@erase "$(INTDIR)\ReadDataGroupC-r4.obj"
+	-@erase "$(INTDIR)\ReadDataGroupD.obj"
+	-@erase "$(INTDIR)\ReadDataGroupE.obj"
+	-@erase "$(INTDIR)\ReadDataGroupF.obj"
+	-@erase "$(INTDIR)\ReadElevationFile.obj"
+	-@erase "$(INTDIR)\ReadGeneralEnvironmentFile.obj"
+	-@erase "$(INTDIR)\ReadGeneralTFPointerFile.obj"
+	-@erase "$(INTDIR)\ReadInitialChemicalChannelFile.obj"
+	-@erase "$(INTDIR)\ReadInitialChemicalOverlandFile.obj"
+	-@erase "$(INTDIR)\ReadInitialInfiltrationFile.obj"
+	-@erase "$(INTDIR)\ReadInitialSolidsChannelFile.obj"
+	-@erase "$(INTDIR)\ReadInitialSolidsOverlandFile.obj"
+	-@erase "$(INTDIR)\ReadInitialTransmissionLossFile.obj"
+	-@erase "$(INTDIR)\ReadInitialWaterChannelFile-r2.obj"
+	-@erase "$(INTDIR)\ReadInitialWaterOverlandFile-r2.obj"
+	-@erase "$(INTDIR)\ReadInputFile.obj"
+	-@erase "$(INTDIR)\ReadLandUseFile.obj"
+	-@erase "$(INTDIR)\ReadLinkFile.obj"
+	-@erase "$(INTDIR)\ReadMaskFile.obj"
+	-@erase "$(INTDIR)\ReadNodeFile-r2.obj"
+	-@erase "$(INTDIR)\ReadOverlandEnvironmentFile.obj"
+	-@erase "$(INTDIR)\ReadOverlandEnvironmentTFPointerFile.obj"
+	-@erase "$(INTDIR)\ReadOverlandFpocFile.obj"
+	-@erase "$(INTDIR)\ReadOverlandFpocTFPointerFile.obj"
+	-@erase "$(INTDIR)\ReadSedimentChemicalFile.obj"
+	-@erase "$(INTDIR)\ReadRainGridFile.obj"
+	-@erase "$(INTDIR)\ReadSedimentPropertiesFile.obj"
+	-@erase "$(INTDIR)\ReadSoilLayerChemicalFile.obj"
+	-@erase "$(INTDIR)\ReadSoilLayerThicknessFile.obj"
+	-@erase "$(INTDIR)\ReadSoilStackFile.obj"
+	-@erase "$(INTDIR)\ReadSoilTypeFile-r2.obj"
+	-@erase "$(INTDIR)\ReadStorageDepthFile.obj"
+	-@erase "$(INTDIR)\RunTime.obj"
+	-@erase "$(INTDIR)\SimulationError-r2.obj"
+	-@erase "$(INTDIR)\SolidsBalance.obj"
+	-@erase "$(INTDIR)\SolidsPropertyInit.obj"
+	-@erase "$(INTDIR)\SolidsTransport.obj"
+	-@erase "$(INTDIR)\StripString.obj"
+	-@erase "$(INTDIR)\TimeFunctionInit.obj"
+	-@erase "$(INTDIR)\TimeFunctionInitChemical.obj"
+	-@erase "$(INTDIR)\TimeFunctionInitEnvironment.obj"
+	-@erase "$(INTDIR)\TimeFunctionInitSolids.obj"
+	-@erase "$(INTDIR)\TimeFunctionInitWater.obj"
+	-@erase "$(INTDIR)\TransmissionLoss.obj"
+	-@erase "$(INTDIR)\UpdateEnvironment.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunction.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunctionChemical.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunctionEnvironment.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunctionSolids.obj"
+	-@erase "$(INTDIR)\UpdateTimeFunctionWater.obj"
+	-@erase "$(INTDIR)\UtilityFunctions.obj"
+	-@erase "$(INTDIR)\WaterBalance.obj"
+	-@erase "$(INTDIR)\WaterTransport-r2.obj"
+	-@erase "$(INTDIR)\WriteDumpFile.obj"
+	-@erase "$(INTDIR)\WriteEndGrids.obj"
+	-@erase "$(INTDIR)\WriteEndGridsChemical.obj"
+	-@erase "$(INTDIR)\WriteEndGridsSolids.obj"
+	-@erase "$(INTDIR)\WriteEndGridsWater.obj"
+	-@erase "$(INTDIR)\WriteGrids.obj"
+	-@erase "$(INTDIR)\WriteGridsChemical.obj"
+	-@erase "$(INTDIR)\WriteGridsSolids.obj"
+	-@erase "$(INTDIR)\WriteGridsWater.obj"
+	-@erase "$(INTDIR)\WriteMassBalance.obj"
+	-@erase "$(INTDIR)\WriteMassBalanceChemical.obj"
+	-@erase "$(INTDIR)\WriteMassBalanceSolids.obj"
+	-@erase "$(INTDIR)\WriteMassBalanceWater.obj"
+	-@erase "$(INTDIR)\WriteSummary.obj"
+	-@erase "$(INTDIR)\WriteSummaryChemical.obj"
+	-@erase "$(INTDIR)\WriteSummarySolids.obj"
+	-@erase "$(INTDIR)\WriteSummaryWater-r3.obj"
+	-@erase "$(INTDIR)\WriteTimeSeries.obj"
+	-@erase "$(INTDIR)\WriteTimeSeriesChemical.obj"
+	-@erase "$(INTDIR)\WriteTimeSeriesSolids.obj"
+	-@erase "$(INTDIR)\WriteTimeSeriesWater.obj"
+	-@erase "$(OUTDIR)\$(TREXBIN)"
+	-@erase "$(OUTDIR)\*.ilk"
+	-@erase "$(OUTDIR)\*.pdb"
+
+"$(INTDIR)" :
+	if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
+
+
+"$(OUTDIR)" :
+	if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
+
+
+CC=icl.exe
+CFLAGS=/nologo /MLd /W3 /Zi /Od /Fo"$(INTDIR)\\" /c
+
+.c{$(INTDIR)}.obj::
+   $(CC) @<<
+   $(CFLAGS) $< 
+<<
+	
+LINK=icl.exe
+LINK_FLAGS=/nologo /MLd /W3 /Zi /Od /Fe"$(OUTDIR)\$(TREXBIN)"
+OBJS= \
+	"$(INTDIR)\trex-r2.obj" \
+	"$(INTDIR)\ChannelChemicalAdvection-r2.obj" \
+	"$(INTDIR)\ChannelChemicalBiodegradation.obj" \
+	"$(INTDIR)\ChannelChemicalConcentration-r3.obj" \
+	"$(INTDIR)\ChannelChemicalDeposition.obj" \
+	"$(INTDIR)\ChannelChemicalDispersion.obj" \
+	"$(INTDIR)\ChannelChemicalDissolution.obj" \
+	"$(INTDIR)\ChannelChemicalErosion.obj" \
+	"$(INTDIR)\ChannelChemicalHydrolysis.obj" \
+	"$(INTDIR)\ChannelChemicalKinetics.obj" \
+	"$(INTDIR)\ChannelChemicalOxidation.obj" \
+	"$(INTDIR)\ChannelChemicalPartitioning.obj" \
+	"$(INTDIR)\ChannelChemicalPhotolysis.obj" \
+	"$(INTDIR)\ChannelChemicalRadioactive.obj" \
+	"$(INTDIR)\ChannelChemicalTransmissionLoss.obj" \
+	"$(INTDIR)\ChannelChemicalUDReaction.obj" \
+	"$(INTDIR)\ChannelChemicalVolatilization.obj" \
+	"$(INTDIR)\ChannelChemicalYield.obj" \
+	"$(INTDIR)\ChannelSolidsAdvection-r2.obj" \
+	"$(INTDIR)\ChannelSolidsConcentration-r3.obj" \
+	"$(INTDIR)\ChannelSolidsDeposition.obj" \
+	"$(INTDIR)\ChannelSolidsDispersion.obj" \
+	"$(INTDIR)\ChannelSolidsErosion.obj" \
+	"$(INTDIR)\ChannelSolidsKinetics.obj" \
+	"$(INTDIR)\ChannelSolidsMineralization.obj" \
+	"$(INTDIR)\ChannelSolidsTransportCapacity-r2.obj" \
+	"$(INTDIR)\ChannelSolidsYield.obj" \
+	"$(INTDIR)\ChannelWaterDepth-r7.obj" \
+	"$(INTDIR)\ChannelWaterRoute-r8.obj" \
+	"$(INTDIR)\ChemicalBalance.obj" \
+	"$(INTDIR)\ChemicalPropertyInit.obj" \
+	"$(INTDIR)\ChemicalTransport.obj" \
+	"$(INTDIR)\ComputeChannelElevation.obj" \
+	"$(INTDIR)\ComputeChannelLength.obj" \
+	"$(INTDIR)\ComputeChannelTopology-r5.obj" \
+	"$(INTDIR)\ComputeChemicalGroupConcSums.obj" \
+	"$(INTDIR)\ComputeChemicalGroupPhaseAve.obj" \
+	"$(INTDIR)\ComputeChemicalGroupTransportSums.obj" \
+	"$(INTDIR)\ComputeFinalState.obj" \
+	"$(INTDIR)\ComputeFinalStateChemical.obj" \
+	"$(INTDIR)\ComputeFinalStateSolids.obj" \
+	"$(INTDIR)\ComputeFinalStateWater.obj" \
+	"$(INTDIR)\ComputeInitialState.obj" \
+	"$(INTDIR)\ComputeInitialStateChemical.obj" \
+	"$(INTDIR)\ComputeInitialStateSolids.obj" \
+	"$(INTDIR)\ComputeInitialStateWater.obj" \
+	"$(INTDIR)\ComputeSolidsGroupConcSums.obj" \
+	"$(INTDIR)\ComputeSolidsGroupTransportSums.obj" \
+	"$(INTDIR)\FloodplainChemicalTransfer.obj" \
+	"$(INTDIR)\FloodplainSolidsTransfer.obj" \
+	"$(INTDIR)\FloodplainWaterTransfer.obj" \
+	"$(INTDIR)\FreeMemory.obj" \
+	"$(INTDIR)\FreeMemoryChemical.obj" \
+	"$(INTDIR)\FreeMemoryEnvironment.obj" \
+	"$(INTDIR)\FreeMemorySolids.obj" \
+	"$(INTDIR)\FreeMemoryWater-r3.obj" \
+	"$(INTDIR)\Grid-r2.obj" \
+	"$(INTDIR)\Infiltration-r3.obj" \
+	"$(INTDIR)\Initialize.obj" \
+	"$(INTDIR)\InitializeChemical.obj" \
+	"$(INTDIR)\InitializeEnvironment.obj" \
+	"$(INTDIR)\InitializeSolids-r2.obj" \
+	"$(INTDIR)\InitializeWater-r4.obj" \
+	"$(INTDIR)\Interception-r2.obj" \
+	"$(INTDIR)\NewState.obj" \
+	"$(INTDIR)\NewStateChemical.obj" \
+	"$(INTDIR)\NewStateSolids.obj" \
+	"$(INTDIR)\NewStateStack.obj" \
+	"$(INTDIR)\NewStateWater.obj" \
+	"$(INTDIR)\OverlandChemicalAdvection-r2.obj" \
+	"$(INTDIR)\OverlandChemicalBiodegradation.obj" \
+	"$(INTDIR)\OverlandChemicalConcentration-r3.obj" \
+	"$(INTDIR)\OverlandChemicalDeposition.obj" \
+	"$(INTDIR)\OverlandChemicalDispersion.obj" \
+	"$(INTDIR)\OverlandChemicalDissolution.obj" \
+	"$(INTDIR)\OverlandChemicalErosion.obj" \
+	"$(INTDIR)\OverlandChemicalHydrolysis.obj" \
+	"$(INTDIR)\OverlandChemicalInfiltration.obj" \
+	"$(INTDIR)\OverlandChemicalKinetics.obj" \
+	"$(INTDIR)\OverlandChemicalOxidation.obj" \
+	"$(INTDIR)\OverlandChemicalPartitioning.obj" \
+	"$(INTDIR)\OverlandChemicalPhotolysis.obj" \
+	"$(INTDIR)\OverlandChemicalRadioactive.obj" \
+	"$(INTDIR)\OverlandChemicalUDReaction.obj" \
+	"$(INTDIR)\OverlandChemicalVolatilization.obj" \
+	"$(INTDIR)\OverlandChemicalYield.obj" \
+	"$(INTDIR)\OverlandSolidsAdvection-r2.obj" \
+	"$(INTDIR)\OverlandSolidsConcentration-r3.obj" \
+	"$(INTDIR)\OverlandSolidsDeposition.obj" \
+	"$(INTDIR)\OverlandSolidsDispersion.obj" \
+	"$(INTDIR)\OverlandSolidsErosion.obj" \
+	"$(INTDIR)\OverlandSolidsKinetics.obj" \
+	"$(INTDIR)\OverlandSolidsMineralization.obj" \
+	"$(INTDIR)\OverlandSolidsTransportCapacity-r3.obj" \
+	"$(INTDIR)\OverlandSolidsYield.obj" \
+	"$(INTDIR)\OverlandWaterDepth-r5.obj" \
+	"$(INTDIR)\OverlandWaterRoute.obj" \
+	"$(INTDIR)\PopSedimentStack.obj" \
+	"$(INTDIR)\PopSoilStack.obj" \
+	"$(INTDIR)\PushSedimentStack-r2.obj" \
+	"$(INTDIR)\PushSoilStack.obj" \
+	"$(INTDIR)\Rainfall-r3.obj" \
+	"$(INTDIR)\ReadChannelEnvironmentFile.obj" \
+	"$(INTDIR)\ReadChannelFile.obj" \
+	"$(INTDIR)\ReadChannelFpocFile.obj" \
+	"$(INTDIR)\ReadChannelTransmissionFile.obj" \
+	"$(INTDIR)\ReadDataGroupA.obj" \
+	"$(INTDIR)\ReadDataGroupB-r5.obj" \
+	"$(INTDIR)\ReadDataGroupC-r4.obj" \
+	"$(INTDIR)\ReadDataGroupD.obj" \
+	"$(INTDIR)\ReadDataGroupE.obj" \
+	"$(INTDIR)\ReadDataGroupF.obj" \
+	"$(INTDIR)\ReadElevationFile.obj" \
+	"$(INTDIR)\ReadGeneralEnvironmentFile.obj" \
+	"$(INTDIR)\ReadGeneralTFPointerFile.obj" \
+	"$(INTDIR)\ReadInitialChemicalChannelFile.obj" \
+	"$(INTDIR)\ReadInitialChemicalOverlandFile.obj" \
+	"$(INTDIR)\ReadInitialInfiltrationFile.obj" \
+	"$(INTDIR)\ReadInitialSolidsChannelFile.obj" \
+	"$(INTDIR)\ReadInitialSolidsOverlandFile.obj" \
+	"$(INTDIR)\ReadInitialTransmissionLossFile.obj" \
+	"$(INTDIR)\ReadInitialWaterChannelFile-r2.obj" \
+	"$(INTDIR)\ReadInitialWaterOverlandFile-r2.obj" \
+	"$(INTDIR)\ReadInputFile.obj" \
+	"$(INTDIR)\ReadLandUseFile.obj" \
+	"$(INTDIR)\ReadLinkFile.obj" \
+	"$(INTDIR)\ReadMaskFile.obj" \
+	"$(INTDIR)\ReadNodeFile-r2.obj" \
+	"$(INTDIR)\ReadOverlandEnvironmentFile.obj" \
+	"$(INTDIR)\ReadOverlandEnvironmentTFPointerFile.obj" \
+	"$(INTDIR)\ReadOverlandFpocFile.obj" \
+	"$(INTDIR)\ReadOverlandFpocTFPointerFile.obj" \
+	"$(INTDIR)\ReadRainGridFile.obj" \
+	"$(INTDIR)\ReadSedimentChemicalFile.obj" \
+	"$(INTDIR)\ReadSedimentPropertiesFile.obj" \
+	"$(INTDIR)\ReadSoilLayerChemicalFile.obj" \
+	"$(INTDIR)\ReadSoilLayerThicknessFile.obj" \
+	"$(INTDIR)\ReadSoilStackFile.obj" \
+	"$(INTDIR)\ReadSoilTypeFile-r2.obj" \
+	"$(INTDIR)\ReadStorageDepthFile.obj" \
+	"$(INTDIR)\RunTime.obj" \
+	"$(INTDIR)\SimulationError-r2.obj" \
+	"$(INTDIR)\SolidsBalance.obj" \
+	"$(INTDIR)\SolidsPropertyInit.obj" \
+	"$(INTDIR)\SolidsTransport.obj" \
+	"$(INTDIR)\StripString.obj" \
+	"$(INTDIR)\TimeFunctionInit.obj" \
+	"$(INTDIR)\TimeFunctionInitChemical.obj" \
+	"$(INTDIR)\TimeFunctionInitEnvironment.obj" \
+	"$(INTDIR)\TimeFunctionInitSolids.obj" \
+	"$(INTDIR)\TimeFunctionInitWater.obj" \
+	"$(INTDIR)\TransmissionLoss.obj" \
+	"$(INTDIR)\UpdateEnvironment.obj" \
+	"$(INTDIR)\UpdateTimeFunction.obj" \
+	"$(INTDIR)\UpdateTimeFunctionChemical.obj" \
+	"$(INTDIR)\UpdateTimeFunctionEnvironment.obj" \
+	"$(INTDIR)\UpdateTimeFunctionSolids.obj" \
+	"$(INTDIR)\UpdateTimeFunctionWater.obj" \
+	"$(INTDIR)\UtilityFunctions.obj" \
+	"$(INTDIR)\WaterBalance.obj" \
+	"$(INTDIR)\WaterTransport-r2.obj" \
+	"$(INTDIR)\WriteDumpFile.obj" \
+	"$(INTDIR)\WriteEndGrids.obj" \
+	"$(INTDIR)\WriteEndGridsChemical.obj" \
+	"$(INTDIR)\WriteEndGridsSolids.obj" \
+	"$(INTDIR)\WriteEndGridsWater.obj" \
+	"$(INTDIR)\WriteGrids.obj" \
+	"$(INTDIR)\WriteGridsChemical.obj" \
+	"$(INTDIR)\WriteGridsSolids.obj" \
+	"$(INTDIR)\WriteGridsWater.obj" \
+	"$(INTDIR)\WriteMassBalance.obj" \
+	"$(INTDIR)\WriteMassBalanceChemical.obj" \
+	"$(INTDIR)\WriteMassBalanceSolids.obj" \
+	"$(INTDIR)\WriteMassBalanceWater.obj" \
+	"$(INTDIR)\WriteSummary.obj" \
+	"$(INTDIR)\WriteSummaryChemical.obj" \
+	"$(INTDIR)\WriteSummarySolids.obj" \
+	"$(INTDIR)\WriteSummaryWater-r3.obj" \
+	"$(INTDIR)\WriteTimeSeries.obj" \
+	"$(INTDIR)\WriteTimeSeriesChemical.obj" \
+	"$(INTDIR)\WriteTimeSeriesSolids.obj" \
+	"$(INTDIR)\WriteTimeSeriesWater.obj"
+
+"$(OUTDIR)\$(TREXBIN)" : "$(OUTDIR)" $(OBJS)
+    $(LINK) @<<
+  $(LINK_FLAGS) $(OBJS)
+<<
+
+!ENDIF 
+
+
+!IF "$(CFG)" == "release" || "$(CFG)" == "debug"
+
+
+SOURCE="$(SRCDIR)\trex-r2.c"
+
+"$(INTDIR)\trex-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalAdvection-r2.c"
+
+"$(INTDIR)\ChannelChemicalAdvection-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalBiodegradation.c"
+
+"$(INTDIR)\ChannelChemicalBiodegradation.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalConcentration-r3.c"
+
+"$(INTDIR)\ChannelChemicalConcentration-r3.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalDeposition.c"
+
+"$(INTDIR)\ChannelChemicalDeposition.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalDispersion.c"
+
+"$(INTDIR)\ChannelChemicalDispersion.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalDissolution.c"
+
+"$(INTDIR)\ChannelChemicalDissolution.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalErosion.c"
+
+"$(INTDIR)\ChannelChemicalErosion.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalHydrolysis.c"
+
+"$(INTDIR)\ChannelChemicalHydrolysis.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalKinetics.c"
+
+"$(INTDIR)\ChannelChemicalKinetics.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalOxidation.c"
+
+"$(INTDIR)\ChannelChemicalOxidation.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalPartitioning.c"
+
+"$(INTDIR)\ChannelChemicalPartitioning.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalPhotolysis.c"
+
+"$(INTDIR)\ChannelChemicalPhotolysis.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalRadioactive.c"
+
+"$(INTDIR)\ChannelChemicalRadioactive.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalUDReaction.c"
+
+"$(INTDIR)\ChannelChemicalUDReaction.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalTransmissionLoss.c"
+
+"$(INTDIR)\ChannelChemicalTransmissionLoss.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalVolatilization.c"
+
+"$(INTDIR)\ChannelChemicalVolatilization.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelChemicalYield.c"
+
+"$(INTDIR)\ChannelChemicalYield.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelSolidsAdvection-r2.c"
+
+"$(INTDIR)\ChannelSolidsAdvection-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelSolidsConcentration-r3.c"
+
+"$(INTDIR)\ChannelSolidsConcentration-r3.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelSolidsDeposition.c"
+
+"$(INTDIR)\ChannelSolidsDeposition.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelSolidsDispersion.c"
+
+"$(INTDIR)\ChannelSolidsDispersion.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelSolidsErosion.c"
+
+"$(INTDIR)\ChannelSolidsErosion.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelSolidsKinetics.c"
+
+"$(INTDIR)\ChannelSolidsKinetics.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelSolidsMineralization.c"
+
+"$(INTDIR)\ChannelSolidsMineralization.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelSolidsTransportCapacity-r2.c"
+
+"$(INTDIR)\ChannelSolidsTransportCapacity-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelSolidsYield.c"
+
+"$(INTDIR)\ChannelSolidsYield.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelWaterDepth-r7.c"
+
+"$(INTDIR)\ChannelWaterDepth-r7.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChannelWaterRoute-r8.c"
+
+"$(INTDIR)\ChannelWaterRoute-r8.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChemicalBalance.c"
+
+"$(INTDIR)\ChemicalBalance.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChemicalPropertyInit.c"
+
+"$(INTDIR)\ChemicalPropertyInit.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ChemicalTransport.c"
+
+"$(INTDIR)\ChemicalTransport.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeChannelElevation.c"
+
+"$(INTDIR)\ComputeChannelElevation.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeChannelLength.c"
+
+"$(INTDIR)\ComputeChannelLength.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeChannelTopology-r5.c"
+
+"$(INTDIR)\ComputeChannelTopology-r5.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeChemicalGroupConcSums.c"
+
+"$(INTDIR)\ComputeChemicalGroupConcSums.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeChemicalGroupTransportSums.c"
+
+"$(INTDIR)\ComputeChemicalGroupTransportSums.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeChemicalGroupPhaseAve.c"
+
+"$(INTDIR)\ComputeChemicalGroupPhaseAve.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeFinalState.c"
+
+"$(INTDIR)\ComputeFinalState.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeFinalStateChemical.c"
+
+"$(INTDIR)\ComputeFinalStateChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeFinalStateSolids.c"
+
+"$(INTDIR)\ComputeFinalStateSolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeFinalStateWater.c"
+
+"$(INTDIR)\ComputeFinalStateWater.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeInitialState.c"
+
+"$(INTDIR)\ComputeInitialState.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeInitialStateChemical.c"
+
+"$(INTDIR)\ComputeInitialStateChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeInitialStateSolids.c"
+
+"$(INTDIR)\ComputeInitialStateSolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeInitialStateWater.c"
+
+"$(INTDIR)\ComputeInitialStateWater.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeSolidsGroupConcSums.c"
+
+"$(INTDIR)\ComputeSolidsGroupConcSums.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ComputeSolidsGroupTransportSums.c"
+
+"$(INTDIR)\ComputeSolidsGroupTransportSums.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\FloodplainchemicalTransfer.c"
+
+"$(INTDIR)\FloodplainChemicalTransfer.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\FloodplainSolidsTransfer.c"
+
+"$(INTDIR)\FloodplainSolidsTransfer.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\FloodplainWaterTransfer.c"
+
+"$(INTDIR)\FloodplainWaterTransfer.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\FreeMemory.c"
+
+"$(INTDIR)\FreeMemory.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\FreeMemoryChemical.c"
+
+"$(INTDIR)\FreeMemoryChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\FreeMemoryEnvironment.c"
+
+"$(INTDIR)\FreeMemoryEnvironment.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\FreeMemorySolids.c"
+
+"$(INTDIR)\FreeMemorySolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\FreeMemoryWater-r3.c"
+
+"$(INTDIR)\FreeMemoryWater-r3.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\Grid-r2.c"
+
+"$(INTDIR)\Grid-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\Infiltration-r3.c"
+
+"$(INTDIR)\Infiltration-r3.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\Initialize.c"
+
+"$(INTDIR)\Initialize.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\InitializeChemical.c"
+
+"$(INTDIR)\InitializeChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\InitializeEnvironment.c"
+
+"$(INTDIR)\InitializeEnvironment.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\InitializeSolids-r2.c"
+
+"$(INTDIR)\InitializeSolids-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\InitializeWater-r4.c"
+
+"$(INTDIR)\InitializeWater-r4.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\Interception-r2.c"
+
+"$(INTDIR)\Interception-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\NewState.c"
+
+"$(INTDIR)\NewState.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\NewStateChemical.c"
+
+"$(INTDIR)\NewStateChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\NewStateSolids.c"
+
+"$(INTDIR)\NewStateSolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\NewStateStack.c"
+
+"$(INTDIR)\NewStateStack.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\NewStateWater.c"
+
+"$(INTDIR)\NewStateWater.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalAdvection-r2.c"
+
+"$(INTDIR)\OverlandChemicalAdvection-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalBiodegradation.c"
+
+"$(INTDIR)\OverlandChemicalBiodegradation.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalConcentration-r3.c"
+
+"$(INTDIR)\OverlandChemicalConcentration-r3.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalDeposition.c"
+
+"$(INTDIR)\OverlandChemicalDeposition.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalDispersion.c"
+
+"$(INTDIR)\OverlandChemicalDispersion.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalDissolution.c"
+
+"$(INTDIR)\OverlandChemicalDissolution.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalErosion.c"
+
+"$(INTDIR)\OverlandChemicalErosion.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalHydrolysis.c"
+
+"$(INTDIR)\OverlandChemicalHydrolysis.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalKinetics.c"
+
+"$(INTDIR)\OverlandChemicalKinetics.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalInfiltration.c"
+
+"$(INTDIR)\OverlandChemicalInfiltration.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalOxidation.c"
+
+"$(INTDIR)\OverlandChemicalOxidation.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalPartitioning.c"
+
+"$(INTDIR)\OverlandChemicalPartitioning.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalPhotolysis.c"
+
+"$(INTDIR)\OverlandChemicalPhotolysis.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalRadioactive.c"
+
+"$(INTDIR)\OverlandChemicalRadioactive.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalUDReaction.c"
+
+"$(INTDIR)\OverlandChemicalUDReaction.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalVolatilization.c"
+
+"$(INTDIR)\OverlandChemicalVolatilization.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandChemicalYield.c"
+
+"$(INTDIR)\OverlandChemicalYield.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandSolidsAdvection-r2.c"
+
+"$(INTDIR)\OverlandSolidsAdvection-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandSolidsConcentration-r3.c"
+
+"$(INTDIR)\OverlandSolidsConcentration-r3.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandSolidsDeposition.c"
+
+"$(INTDIR)\OverlandSolidsDeposition.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandSolidsDispersion.c"
+
+"$(INTDIR)\OverlandSolidsDispersion.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandSolidsErosion.c"
+
+"$(INTDIR)\OverlandSolidsErosion.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandSolidsKinetics.c"
+
+"$(INTDIR)\OverlandSolidsKinetics.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandSolidsMineralization.c"
+
+"$(INTDIR)\OverlandSolidsMineralization.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandSolidsTransportCapacity-r3.c"
+
+"$(INTDIR)\OverlandSolidsTransportCapacity-r3.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandSolidsYield.c"
+
+"$(INTDIR)\OverlandSolidsYield.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandWaterDepth-r5.c"
+
+"$(INTDIR)\OverlandWaterDepth-r5.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\OverlandWaterRoute.c"
+
+"$(INTDIR)\OverlandWaterRoute.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\PopSedimentStack.c"
+
+"$(INTDIR)\PopSedimentStack.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\PopSoilStack.c"
+
+"$(INTDIR)\PopSoilStack.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\PushSedimentStack-r2.c"
+
+"$(INTDIR)\PushSedimentStack-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\PushSoilStack.c"
+
+"$(INTDIR)\PushSoilStack.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\Rainfall-r3.c"
+
+"$(INTDIR)\Rainfall-r3.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadChannelEnvironmentFile.c"
+
+"$(INTDIR)\ReadChannelEnvironmentFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadChannelFile.c"
+
+"$(INTDIR)\ReadChannelFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadChannelFpocFile.c"
+
+"$(INTDIR)\ReadChannelFpocFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadChannelTransmissionFile.c"
+
+"$(INTDIR)\ReadChannelTransmissionFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadDataGroupA.c"
+
+"$(INTDIR)\ReadDataGroupA.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadDataGroupB-r5.c"
+
+"$(INTDIR)\ReadDataGroupB-r5.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadDataGroupC-r4.c"
+
+"$(INTDIR)\ReadDataGroupC-r4.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadDataGroupD.c"
+
+"$(INTDIR)\ReadDataGroupD.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadDataGroupE.c"
+
+"$(INTDIR)\ReadDataGroupE.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadDataGroupF.c"
+
+"$(INTDIR)\ReadDataGroupF.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadElevationFile.c"
+
+"$(INTDIR)\ReadElevationFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadGeneralEnvironmentFile.c"
+
+"$(INTDIR)\ReadGeneralEnvironmentFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadGeneralTFPointerFile.c"
+
+"$(INTDIR)\ReadGeneralTFPointerFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadInitialChemicalChannelFile.c"
+
+"$(INTDIR)\ReadInitialChemicalChannelFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadInitialChemicalOverlandFile.c"
+
+"$(INTDIR)\ReadInitialChemicalOverlandFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadInitialInfiltrationFile.c"
+
+"$(INTDIR)\ReadInitialInfiltrationFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadInitialSolidsChannelFile.c"
+
+"$(INTDIR)\ReadInitialSolidsChannelFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadInitialSolidsOverlandFile.c"
+
+"$(INTDIR)\ReadInitialSolidsOverlandFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadInitialTransmissionLossFile.c"
+
+"$(INTDIR)\ReadInitialtransmissionLossFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadInitialWaterChannelFile-r2.c"
+
+"$(INTDIR)\ReadInitialWaterChannelFile-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadInitialWaterOverlandFile-r2.c"
+
+"$(INTDIR)\ReadInitialWaterOverlandFile-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadInputFile.c"
+
+"$(INTDIR)\ReadInputFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadLandUseFile.c"
+
+"$(INTDIR)\ReadLandUseFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadLinkFile.c"
+
+"$(INTDIR)\ReadLinkFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadMaskFile.c"
+
+"$(INTDIR)\ReadMaskFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadNodeFile-r2.c"
+
+"$(INTDIR)\ReadNodeFile-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadOverlandEnvironmentFile.c"
+
+"$(INTDIR)\ReadOverlandEnvironmentFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadOverlandEnvironmentTFPointerFile.c"
+
+"$(INTDIR)\ReadOverlandEnvironmentTFPointerFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadOverlandFpocFile.c"
+
+"$(INTDIR)\ReadOverlandFpocFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadOverlandFpocTFPointerFile.c"
+
+"$(INTDIR)\ReadOverlandFpocTFPointerFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadRainGridFile.c"
+
+"$(INTDIR)\ReadRainGridFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadSedimentChemicalFile.c"
+
+"$(INTDIR)\ReadSedimentChemicalFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadSedimentPropertiesFile.c"
+
+"$(INTDIR)\ReadSedimentPropertiesFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadSoilLayerChemicalFile.c"
+
+"$(INTDIR)\ReadSoilLayerChemicalFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadSoilLayerThicknessFile.c"
+
+"$(INTDIR)\ReadSoilLayerThicknessFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadSoilStackFile.c"
+
+"$(INTDIR)\ReadSoilStackFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadSoilTypeFile-r2.c"
+
+"$(INTDIR)\ReadSoilTypeFile-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\ReadStorageDepthFile.c"
+
+"$(INTDIR)\ReadStorageDepthFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\RunTime.c"
+
+"$(INTDIR)\RunTime.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\SimulationError-r2.c"
+
+"$(INTDIR)\SimulationError-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\SolidsBalance.c"
+
+"$(INTDIR)\SolidsBalance.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\SolidsPropertyInit.c"
+
+"$(INTDIR)\SolidsPropertyInit.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\SolidsTransport.c"
+
+"$(INTDIR)\SolidsTransport.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\StripString.c"
+
+"$(INTDIR)\StripString.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\TimeFunctionInit.c"
+
+"$(INTDIR)\TimeFunctionInit.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\TimeFunctionInitChemical.c"
+
+"$(INTDIR)\TimeFunctionInitChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\TimeFunctionInitEnvironment.c"
+
+"$(INTDIR)\TimeFunctionInitEnvironment.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\TimeFunctionInitSolids.c"
+
+"$(INTDIR)\TimeFunctionInitSolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\TimeFunctionInitWater.c"
+
+"$(INTDIR)\TimeFunctionInitWater.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\TransmissionLoss.c"
+
+"$(INTDIR)\TransmissionLoss.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\UpdateEnvironment.c"
+
+"$(INTDIR)\UpdateEnvironment.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\UpdateTimeFunction.c"
+
+"$(INTDIR)\UpdateTimeFunction.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\UpdateTimeFunctionChemical.c"
+
+"$(INTDIR)\UpdateTimeFunctionChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\UpdateTimeFunctionEnvironment.c"
+
+"$(INTDIR)\UpdateTimeFunctionEnvironment.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\UpdateTimeFunctionSolids.c"
+
+"$(INTDIR)\UpdateTimeFunctionSolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\UpdateTimeFunctionWater.c"
+
+"$(INTDIR)\UpdateTimeFunctionWater.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\UtilityFunctions.c"
+
+"$(INTDIR)\UtilityFunctions.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WaterBalance.c"
+
+"$(INTDIR)\WaterBalance.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WaterTransport-r2.c"
+
+"$(INTDIR)\WaterTransport-r2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteDumpFile.c"
+
+"$(INTDIR)\WriteDumpFile.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteEndGrids.c"
+
+"$(INTDIR)\WriteEndGrids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteEndGridsChemical.c"
+
+"$(INTDIR)\WriteEndGridsChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteEndGridsSolids.c"
+
+"$(INTDIR)\WriteEndGridsSolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteEndGridsWater.c"
+
+"$(INTDIR)\WriteEndGridsWater.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteGrids.c"
+
+"$(INTDIR)\WriteGrids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteGridsChemical.c"
+
+"$(INTDIR)\WriteGridsChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteGridsSolids.c"
+
+"$(INTDIR)\WriteGridsSolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteGridsWater.c"
+
+"$(INTDIR)\WriteGridsWater.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteMassBalance.c"
+
+"$(INTDIR)\WriteMassBalance.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteMassBalanceChemical.c"
+
+"$(INTDIR)\WriteMassBalanceChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteMassBalanceSolids.c"
+
+"$(INTDIR)\WriteMassBalanceSolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteMassBalanceWater.c"
+
+"$(INTDIR)\WriteMassBalanceWater.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteSummary.c"
+
+"$(INTDIR)\WriteSummary.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteSummaryChemical.c"
+
+"$(INTDIR)\WriteSummaryChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteSummarySolids.c"
+
+"$(INTDIR)\WriteSummarySolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteSummaryWater-r3.c"
+
+"$(INTDIR)\WriteSummaryWater-r3.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteTimeSeries.c"
+
+"$(INTDIR)\WriteTimeSeries.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteTimeSeriesChemical.c"
+
+"$(INTDIR)\WriteTimeSeriesChemical.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteTimeSeriesSolids.c"
+
+"$(INTDIR)\WriteTimeSeriesSolids.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+SOURCE="$(SRCDIR)\WriteTimeSeriesWater.c"
+
+"$(INTDIR)\WriteTimeSeriesWater.obj" : $(SOURCE) "$(INTDIR)"
+	$(CC) $(CFLAGS) $(SOURCE)
+
+
+!ENDIF

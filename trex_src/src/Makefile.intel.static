@@ -1,0 +1,673 @@
+# Makefile for TREX
+#
+# Authors:
+# John England, Bureau of Reclamation
+# Mark Velleux, HydroQual, Inc.
+# send questions or comments to:
+# jengland@usbr.gov or mvelleux@hydroqual.com
+#
+# updated date: 17-JUN-2009
+#
+# this Makefile is for TREX version with integrated rainfall options,
+#   snowmelt, distributed point sources, and restart options
+#
+# code last updated 16-JUN-2009
+#
+# to run, type "make" at command line
+# or "make -f yourMakefilename"
+#
+# Some Tested Platforms:
+#
+# RedHat Linux and Fedora Linux
+# on an Intel 32-bit with 686 (P4)or better, other Intel variants
+# AMD Opteron x86_64 single and dual cores, other AMD variants
+#
+# Distributions: Fedora Core 4, 5, Fedora 8, 10
+#  and RedHat Enterprise Linux Workstation 4
+# Kernels: 2.6.27-X variants and newer
+#
+# GNU C compiler 4.3.2 and variants
+# GNU make 3.81
+#
+# compiler: GNU C compiler
+#CC		= gcc
+#
+# compiler: Portland Group C compiler
+#CC		= pgcc
+#
+# compiler: Intel C compiler
+CC		= icc
+#
+# compiler flag definitions for gcc:  -g = debug, -Wall = warn all
+#
+# modified compiler flags following GCC-warning-options-for-numerical-programs
+# use -O3 for optimization
+# use march as it implies mtune, prescott is enhanced P4, could also try pentium4
+#
+# for AMD Opteron use march=opteron and -m64 for 64 bit
+#CFLAGS = -fast
+#
+# see http://gcc.gnu.org/onlinedocs/gcc-4.0.1/gcc/i386-and-x86_002d64-Options.html#i386-and-x86_002d64-Options
+#
+#Intel Prescott P4
+#CFLAGS		= -Wall  -O3 -march=prescott -W -Wmissing-prototypes \
+#		  -Wconversion -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align\
+#		  -Wwrite-strings -fshort-enums -fno-common -Wnested-externs
+#AMD64 Opteron
+#CFLAGS		= -g -Wall  -O3 -march=opteron -m64 -W -Wmissing-prototypes \
+#		  -Wconversion -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align\
+#		  -Wwrite-strings -fshort-enums -fno-common -Wnested-externs
+#
+#no arch: using -Werror for Warnings as errors
+#CFLAGS		= -g -Wall -Werror -O3 -W -Wmissing-prototypes -Wstrict-prototypes\
+#		  -Wconversion -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align\
+#		  -Wwrite-strings -fshort-enums -fno-common -Wnested-externs
+#no arch
+#CFLAGS		= -g -Wall -O3 -W -Wmissing-prototypes -Wstrict-prototypes\
+#		  -Wconversion -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align\
+#		  -Wwrite-strings -fshort-enums -fno-common -Wnested-externs
+#minimal flags
+#CFLAGS		= -g -Wall
+#
+#Intel C compiler:
+#		-g = debug (implies -O0), -Wall = enable all warnnings
+#		-O1= enable optimizations, -mcpu=<cpu> optimize for specific cpu
+#		-mcpu=pentium4 (DEFAULT)
+#
+#CFLAGS		= -fast
+CFLAGS		= -fast -i-static -static-libgcc -static-intel -static
+#
+#PGI Flags
+#CFLAGS		= -fast
+#CFLAGS         = -fastsse -tp=x64 -Mipa=fast,inline
+
+#Destination
+DEST		= .
+
+#
+EXTHDRS		=
+
+# User-defined Headers
+
+# Headers - General (alphabetical listing order)
+HDRSGEN		= trex_general_declarations.h\
+		  trex_general_definitions.h
+
+# Headers - Water (alphabetical listing order)
+HDRSWATER	= trex_water_declarations.h\
+		  trex_water_definitions.h
+
+# Headers - Solids (alphabetical listing order)
+HDRSSOLIDS	= trex_solids_declarations.h\
+		  trex_solids_definitions.h
+
+# Headers - Environmental (alphabetical listing order)
+HDRSENV		= trex_environmental_declarations.h\
+		  trex_environmental_definitions.h
+
+# Headers - Chemicals (alphabetical listing order)
+HDRSCHEM	= trex_chemical_declarations.h\
+		  trex_chemical_definitions.h
+
+# Concatenate headers
+HDRS		= $(HDRSGEN) $(HDRSWATER) $(HDRSSOLIDS) $(HDRSENV) $(HDRSCHEM)
+
+# Install directory on your system, modify as needed
+INSTALL		= /usr/bin/install
+
+# linker: GNU C compiler
+# fixed to gcc from cc on 27July2005 to test on Sun
+#LD		= gcc 
+# linker: Portland Group C compiler
+#LD		= pgcc 
+# linker: Intel C compiler
+LD		= icc 
+
+# linker flags: GNU C compiler
+LDFLAGS	= -static -static-intel -static-glibcc  
+# linker flags: Intel C compiler
+#LDFLAGS		= 
+
+# linker standard library flags: GNU C compiler
+# libc.a, libm.a
+LIBS		= -lc \
+		  -lm
+# linker standard library flags: Intel C compiler
+# libc.a, libm.a  NEED TO CONFIRM THAT THESE FLAGS WORK
+#LIBS		= -lc \
+#		  -lm
+# Makefile name
+MAKEFILE	= Makefile
+
+# Objects - General (alphabetical listing order)
+OBJSGEN		= ComputeFinalState.o \
+		  ComputeInitialState.o \
+		  FreeMemory.o \
+		  Grid-r2.o \
+		  Initialize-r2.o \
+		  NewState.o \
+		  ReadDataGroupA-r3.o \
+		  ReadDataGroupF-r2.o \
+		  ReadDTFile.o \
+		  ReadInputFile.o \
+		  Reinitialize.o \
+		  RunTime.o \
+		  SimulationError-r2.o \
+		  StripString.o \
+		  TimeFunctionInit-r2.o \
+		  trex-r4.o \
+		  TruncateDT.o \
+		  UpdateTimeFunction-r2.o \
+		  UtilityFunctions.o \
+		  WriteDTBuffer.o \
+		  WriteDTFile.o \
+		  WriteDumpFile.o \
+		  WriteEndGrids.o \
+		  WriteGrids.o \
+		  WriteMassBalance.o \
+		  WriteSummary.o \
+		  WriteTimeSeries.o
+
+# Objects - Water (alphabetical listing order)
+OBJSWATER	= ChannelWaterDepth-r9.o \
+		  ChannelWaterRoute-r10.o \
+		  ComputeChannelElevation.o \
+		  ComputeChannelLength.o \
+		  ComputeChannelTopology-r5.o \
+		  ComputeFinalStateWater.o \
+		  ComputeInitialStateWater.o \
+		  FloodplainWaterTransfer-r2.o \
+		  FreeMemoryWater-r3.o \
+		  Infiltration-r5.o \
+		  InitializeWater-r7.o \
+		  Interception-r4.o \
+		  NewStateWater-r2.o \
+		  OverlandWaterDepth-r7.o \
+		  OverlandWaterRoute-r3.o \
+		  Rainfall-r6.o \
+		  ReadAspectFile.o \
+		  ReadChannelFile.o \
+		  ReadChannelTransmissionFile.o \
+		  ReadDataGroupB-r7.o \
+		  ReadDesignRainGrid.o \
+		  ReadElevationFile.o \
+		  ReadInitialInfiltrationFile.o \
+		  ReadInitialSnowFile.o \
+		  ReadInitialTransmissionLossFile.o \
+		  ReadInitialWaterChannelFile-r2.o \
+		  ReadInitialWaterOverlandFile-r2.o \
+		  ReadLandUseFile.o \
+		  ReadLinkFile.o \
+		  ReadMaskFile-r2.o \
+		  ReadNodeFile-r2.o \
+		  ReadRainGridFile.o \
+		  ReadRadarRainLocations.o \
+		  ReadRadarRainRates.o \
+		  ReadSkyviewFile.o \
+		  ReadSlopeFile.o \
+		  ReadSnowGridFile.o \
+		  ReadSpaceTimeStorm.o \
+		  ReadStorageDepthFile.o \
+		  Snowfall.o \
+		  Snowmelt.o \
+		  TimeFunctionInitWater.o \
+		  TransmissionLoss-r2.o \
+		  UpdateTimeFunctionWater-r2.o \
+		  WaterBalance.o \
+		  WaterTransport-r4.o \
+		  WriteEndGridsWater.o \
+		  WriteGridsWater.o \
+		  WriteMassBalanceWater-r2.o \
+		  WriteSummaryWater-r3.o \
+		  WriteTimeSeriesWater.o
+
+# Objects - Solids (alphabetical listing order)
+OBJSSOLIDS	= ChannelSolidsAdvection-r2.o \
+		  ChannelSolidsConcentration-r3.o \
+		  ChannelSolidsDeposition.o \
+		  ChannelSolidsDispersion.o \
+		  ChannelSolidsErosion.o \
+		  ChannelSolidsKinetics.o \
+		  ChannelSolidsMineralization.o \
+		  ChannelSolidsTransportCapacity-r2.o \
+		  ChannelSolidsYield.o \
+		  ComputeFinalStateSolids.o \
+		  ComputeInitialStateSolids.o \
+		  ComputeSolidsGroupConcSums.o \
+		  ComputeSolidsGroupTransportSums.o \
+		  FloodplainSolidsTransfer.o \
+		  FreeMemorySolids.o \
+		  InitializeSolids-r3.o \
+		  NewStateSolids.o \
+		  NewStateStack.o \
+		  OverlandSolidsAdvection-r3.o \
+		  OverlandSolidsConcentration-r3.o \
+		  OverlandSolidsDeposition.o \
+		  OverlandSolidsDispersion.o \
+		  OverlandSolidsErosion.o \
+		  OverlandSolidsKinetics.o \
+		  OverlandSolidsMineralization.o \
+		  OverlandSolidsTransportCapacity-r3.o \
+		  OverlandSolidsYield.o \
+		  PopSedimentStack.o \
+		  PopSoilStack.o \
+		  PushSedimentStack-r2.o \
+		  PushSoilStack.o \
+		  ReadDataGroupC-r5.o \
+		  ReadInitialSolidsChannelFile.o \
+		  ReadInitialSolidsOverlandFile.o \
+		  ReadSedimentPropertiesFile.o \
+		  ReadSoilLayerThicknessFile.o \
+		  ReadSoilStackFile.o \
+		  ReadSoilTypeFile-r2.o \
+		  ReadSWDovAreaFile.o \
+		  SolidsBalance.o \
+		  SolidsPropertyInit.o \
+		  SolidsTransport.o \
+		  TimeFunctionInitSolids-r2.o \
+		  UpdateTimeFunctionSolids-r2.o \
+		  WriteEndGridsSolids.o \
+		  WriteGridsSolids.o \
+		  WriteMassBalanceSolids.o \
+		  WriteSummarySolids.o \
+		  WriteTimeSeriesSolids.o
+
+# Objects - Environmental (alphabetical listing order)
+OBJSENV		= ComputeSolarRadiation.o \
+		  InitializeEnvironment.o \
+		  FreeMemoryEnvironment.o \
+		  ReadDataGroupE.o \
+		  ReadGeneralEnvironmentFile.o \
+		  ReadGeneralTFPointerFile.o \
+		  ReadOverlandEnvironmentFile.o \
+		  ReadOverlandEnvironmentTFPointerFile.o \
+		  ReadChannelEnvironmentFile.o \
+		  ReadChannelFpocFile.o \
+		  ReadOverlandFpocFile.o \
+		  ReadOverlandFpocTFPointerFile.o \
+		  TimeFunctionInitEnvironment.o \
+		  UpdateEnvironment.o \
+		  UpdateTimeFunctionEnvironment.o
+
+# Objects - Chemical (alphabetical listing order)
+OBJSCHEM	= ChannelChemicalAdvection-r2.o \
+		  ChannelChemicalBiodegradation.o \
+		  ChannelChemicalConcentration-r3.o \
+		  ChannelChemicalDeposition.o \
+		  ChannelChemicalDispersion.o \
+		  ChannelChemicalDissolution.o \
+		  ChannelChemicalErosion.o \
+		  ChannelChemicalHydrolysis.o \
+		  ChannelChemicalKinetics.o \
+		  ChannelChemicalOxidation.o \
+		  ChannelChemicalPartitioning.o \
+		  ChannelChemicalPhotolysis.o \
+		  ChannelChemicalRadioactive.o \
+		  ChannelChemicalTransmissionLoss-r2.o \
+		  ChannelChemicalUDReaction.o \
+		  ChannelChemicalVolatilization.o \
+		  ChannelChemicalYield.o \
+		  ChemicalBalance.o \
+		  ChemicalPropertyInit.o \
+		  ChemicalTransport.o \
+		  ComputeChemicalGroupConcSums-r2.o \
+		  ComputeChemicalGroupTransportSums.o \
+		  ComputeChemicalGroupPhaseAve.o \
+		  ComputeFinalStateChemical.o \
+		  ComputeInitialStateChemical.o \
+		  FloodplainChemicalTransfer.o \
+		  FreeMemoryChemical.o \
+		  InitializeChemical-r2.o \
+		  NewStateChemical.o \
+		  OverlandChemicalAdvection-r3.o \
+		  OverlandChemicalBiodegradation.o \
+		  OverlandChemicalConcentration-r3.o \
+		  OverlandChemicalDeposition.o \
+		  OverlandChemicalDispersion.o \
+		  OverlandChemicalDissolution.o \
+		  OverlandChemicalErosion.o \
+		  OverlandChemicalHydrolysis.o \
+		  OverlandChemicalInfiltration-r2.o \
+		  OverlandChemicalKinetics.o \
+		  OverlandChemicalOxidation.o \
+		  OverlandChemicalPartitioning.o \
+		  OverlandChemicalPhotolysis.o \
+		  OverlandChemicalRadioactive.o \
+		  OverlandChemicalUDReaction.o \
+		  OverlandChemicalVolatilization.o \
+		  OverlandChemicalYield.o \
+		  ReadDataGroupD-r2.o \
+		  ReadInitialChemicalChannelFile.o \
+		  ReadInitialChemicalOverlandFile.o \
+		  ReadSedimentChemicalFile.o \
+		  ReadSoilLayerChemicalFile.o \
+		  ReadCWDovAreaFile.o \
+		  TimeFunctionInitChemical-r2.o \
+		  UpdateTimeFunctionChemical-r2.o \
+		  WriteEndGridsChemical.o \
+		  WriteGridsChemical-r2.o \
+		  WriteMassBalanceChemical.o \
+		  WriteSummaryChemical.o \
+		  WriteTimeSeriesChemical.o
+
+# Objects - Restart (alphabetical listing order)
+OBJSREST	= Read2DIntegerGrid.o \
+		  Read3DIntegerGrid.o \
+		  Read3DDoubleGrid.o \
+		  Read2DFloatGrid.o \
+		  Read3DFloatGrid.o \
+		  ReadRestart.o \
+		  ReadSedimentProperties.o \
+		  ReadWaterProperties.o \
+		  Write2DIntegerGrid.o \
+		  Write3DIntegerGrid.o \
+		  Write3DDoubleGrid.o \
+		  Write2DFloatGrid.o \
+		  Write3DFloatGrid.o \
+		  WriteRestart.o \
+		  WriteSedimentProperties.o \
+		  WriteWaterProperties.o
+
+# Concatenate objects
+OBJS		= $(OBJSGEN) $(OBJSWATER) $(OBJSSOLIDS) $(OBJSENV) $(OBJSCHEM) $(OBJSREST)
+
+# Standard Print
+PRINT		= pr
+
+# Name of Target (main program)
+#PROGRAM		= trex-gcc.x
+#PROGRAM		= trex-pgi.x
+#PROGRAM		= trex-intel.x
+PROGRAM		= trex-intel-static.x
+
+# Standard Shell
+SHELL		= /bin/sh
+
+# Sources - General (alphabetical listing order)
+SRCSGEN		= ComputeFinalState.c \
+		  ComputeInitialState.c \
+		  FreeMemory.c \
+		  Grid-r2.c \
+		  Initialize-r2.c \
+		  NewState.c \
+		  ReadDataGroupA-r3.c \
+		  ReadDataGroupF-r2.c \
+		  ReadDTFile.c \
+		  ReadInputFile.c \
+		  Reinitialize.c \
+		  RunTime.c \
+		  SimulationError-r2.c \
+		  StripString.c \
+		  TimeFunctionInit-r2.c \
+		  trex-r4.c \
+		  TruncateDT.c \
+		  UpdateTimeFunction-r2.c \
+		  UtilityFunctions.c \
+		  WriteDTBuffer.c \
+		  WriteDTFile.c \
+		  WriteDumpFile.c \
+		  WriteEndGrids.c \
+		  WriteGrids.c \
+		  WriteMassBalance.c \
+		  WriteSummary.c \
+		  WriteTimeSeries.c
+
+# Sources - Water (alphabetical listing order)
+SRCSWATER	= ChannelWaterDepth-r9.c \
+		  ChannelWaterRoute-r10.c \
+		  ComputeChannelElevation.c \
+		  ComputeChannelLength.c \
+		  ComputeChannelTopology-r5.c \
+		  ComputeFinalStateWater.c \
+		  ComputeInitialStateWater.c \
+		  FloodplainWaterTransfer-r2.c \
+		  FreeMemoryWater-r3.c \
+		  Infiltration-r5.c \
+		  InitializeWater-r7.c \
+		  Interception-r4.c \
+		  NewStateWater-r2.c \
+		  OverlandWaterDepth-r7.c \
+		  OverlandWaterRoute-r3.c \
+		  Rainfall-r6.c \
+		  ReadAspectFile.c \
+		  ReadChannelFile.c \
+		  ReadChannelTransmissionFile.c \
+		  ReadDataGroupB-r7.c \
+		  ReadDesignRainGrid.c \
+		  ReadElevationFile.c \
+		  ReadInitialInfiltrationFile.c \
+		  ReadInitialSnowFile.c \
+		  ReadInitialTransmissionLossFile.c \
+		  ReadInitialWaterChannelFile-r2.c \
+		  ReadInitialWaterOverlandFile-r2.c \
+		  ReadLandUseFile.c \
+		  ReadLinkFile.c \
+		  ReadMaskFile-r2.c \
+		  ReadNodeFile-r2.c \
+		  ReadRainGridFile.c \
+		  ReadRadarRainLocations.c \
+		  ReadRadarRainRates.c \
+		  ReadSkyviewFile.c \
+		  ReadSlopeFile.c \
+		  ReadSnowGridFile.c \
+		  ReadSpaceTimeStorm.c \
+		  ReadStorageDepthFile.c \
+		  Snowfall.c \
+		  Snowmelt.c \
+		  TimeFunctionInitWater.c \
+		  TransmissionLoss-r2.c \
+		  UpdateTimeFunctionWater-r2.c \
+		  WaterBalance.c \
+		  WaterTransport-r4.c \
+		  WriteEndGridsWater.c \
+		  WriteGridsWater.c \
+		  WriteMassBalanceWater-r2.c \
+		  WriteSummaryWater-r3.c \
+		  WriteTimeSeriesWater.c
+
+# Sources- Solids (alphabetical listing order)
+SRCSSOLIDS	= ChannelSolidsAdvection-r2.c \
+		  ChannelSolidsConcentration-r3.c \
+		  ChannelSolidsDeposition.c \
+		  ChannelSolidsDispersion.c \
+		  ChannelSolidsErosion.c \
+		  ChannelSolidsKinetics.c \
+		  ChannelSolidsMineralization.c \
+		  ChannelSolidsTransportCapacity-r2.c \
+		  ChannelSolidsYield.c \
+		  ComputeFinalStateSolids.c \
+		  ComputeInitialStateSolids.c \
+		  ComputeSolidsGroupConcSums.c \
+		  ComputeSolidsGroupTransportSums.c \
+		  FloodplainSolidsTransfer.c \
+		  FreeMemorySolids.c \
+		  InitializeSolids-r2.c \
+		  NewStateSolids.c \
+		  NewStateStack.c \
+		  OverlandSolidsAdvection-r3.c \
+		  OverlandSolidsConcentration-r3.c \
+		  OverlandSolidsDeposition.c \
+		  OverlandSolidsDispersion.c \
+		  OverlandSolidsErosion.c \
+		  OverlandSolidsKinetics.c \
+		  OverlandSolidsMineralization.c \
+		  OverlandSolidsTransportCapacity-r3.c \
+		  OverlandSolidsYield.c \
+		  PopSedimentStack.c \
+		  PopSoilStack.c \
+		  PushSedimentStack-r2.c \
+		  PushSoilStack.c \
+		  ReadDataGroupC-r5.c \
+		  ReadInitialSolidsChannelFile.c \
+		  ReadInitialSolidsOverlandFile.c \
+		  ReadSedimentPropertiesFile.c \
+		  ReadSoilLayerThicknessFile.c \
+		  ReadSoilStackFile.c \
+		  ReadSoilTypeFile-r2.c \
+		  ReadSWDovAreaFile.c \
+		  SolidsBalance.c \
+		  SolidsPropertyInit.c \
+		  SolidsTransport.c \
+		  TimeFunctionInitSolids-r2.c \
+		  UpdateTimeFunctionSolids-r2.c \
+		  WriteEndGridsSolids.c \
+		  WriteGridsSolids.c \
+		  WriteMassBalanceSolids.c \
+		  WriteSummarySolids.c \
+		  WriteTimeSeriesSolids.c
+
+# Sources - Environmental (alphabetical listing order)
+SRCSENV		= ComputeSolarRadiation.c \
+		  InitializeEnvironment.c \
+		  FreeMemoryEnvironment.c \
+		  ReadDataGroupE.c \
+		  ReadGeneralEnvironmentFile.c \
+		  ReadGeneralTFPointerFile.c \
+		  ReadOverlandEnvironmentFile.c \
+		  ReadOverlandEnvironmentTFPointerFile.c \
+		  ReadChannelEnvironmentFile.c \
+		  ReadChannelFpocFile.c \
+		  ReadOverlandFpocFile.c \
+		  ReadOverlandFpocTFPointerFile.c \
+		  TimeFunctionInitEnvironment.c \
+		  UpdateEnvironment.c \
+		  UpdateTimeFunctionEnvironment.c
+
+# Sources - Chemical (alphabetical listing order)
+SRCSCHEM	= ChannelChemicalAdvection-r2.c \
+		  ChannelChemicalBiodegradation.c \
+		  ChannelChemicalConcentration-r3.c \
+		  ChannelChemicalDeposition.c \
+		  ChannelChemicalDispersion.c \
+		  ChannelChemicalDissolution.c \
+		  ChannelChemicalErosion.c \
+		  ChannelChemicalHydrolysis.c \
+		  ChannelChemicalKinetics.c \
+		  ChannelChemicalOxidation.c \
+		  ChannelChemicalPartitioning.c \
+		  ChannelChemicalPhotolysis.c \
+		  ChannelChemicalRadioactive.c \
+		  ChannelChemicalTransmissionLoss-r2.c \
+		  ChannelChemicalUDReaction.c \
+		  ChannelChemicalVolatilization.c \
+		  ChannelChemicalYield.c \
+		  ChemicalBalance.c \
+		  ChemicalPropertyInit.c \
+		  ChemicalTransport.c \
+		  ComputeChemicalGroupConcSums-r2.c \
+		  ComputeChemicalGroupTransportSums.c \
+		  ComputeChemicalGroupPhaseAve.c \
+		  ComputeFinalStateChemical.c \
+		  ComputeInitialStateChemical.c \
+		  FloodplainChemicalTransfer.c \
+		  FreeMemoryChemical.c \
+		  InitializeChemical-r2.c \
+		  NewStateChemical.c \
+		  OverlandChemicalAdvection-r3.c \
+		  OverlandChemicalBiodegradation.c \
+		  OverlandChemicalConcentration-r3.c \
+		  OverlandChemicalDeposition.c \
+		  OverlandChemicalDispersion.c \
+		  OverlandChemicalDissolution.c \
+		  OverlandChemicalErosion.c \
+		  OverlandChemicalHydrolysis.c \
+		  OverlandChemicalInfiltration-r2.c \
+		  OverlandChemicalKinetics.c \
+		  OverlandChemicalOxidation.c \
+		  OverlandChemicalPartitioning.c \
+		  OverlandChemicalPhotolysis.c \
+		  OverlandChemicalRadioactive.c \
+		  OverlandChemicalUDReaction.c \
+		  OverlandChemicalVolatilization.c \
+		  OverlandChemicalYield.c \
+		  ReadDataGroupD-r2.c \
+		  ReadInitialChemicalChannelFile.c \
+		  ReadInitialChemicalOverlandFile.c \
+		  ReadSedimentChemicalFile.c \
+		  ReadSoilLayerChemicalFile.c \
+		  ReadCWDovAreaFile.c \
+		  TimeFunctionInitChemical-r2.c \
+		  UpdateTimeFunctionChemical-r2.c \
+		  WriteEndGridsChemical.c \
+		  WriteGridsChemical-r2.c \
+		  WriteMassBalanceChemical.c \
+		  WriteSummaryChemical.c \
+		  WriteTimeSeriesChemical.c
+
+# Sources - Restart (alphabetical listing order)
+SRCSREST	= Read2DIntegerGrid.c \
+		  Read3DIntegerGrid.c \
+		  Read3DDoubleGrid.c \
+		  Read2DFloatGrid.c \
+		  Read3DFloatGrid.c \
+		  ReadRestart.c \
+		  ReadSedimentProperties.c \
+		  ReadWaterProperties.c \
+		  Write2DIntegerGrid.c \
+		  Write3DIntegerGrid.c \
+		  Write3DDoubleGrid.c \
+		  Write2DFloatGrid.c \
+		  Write3DFloatGrid.c \
+		  WriteRestart.c \
+		  WriteSedimentProperties.c \
+		  WriteWaterProperties.c
+
+# Concatenate sources
+SRCS		 = $(SRCSGEN) $(SRCSWATER) $(SRCSSOLIDS) $(SRCSENV) $(SRCSCHEM) $(SRCSREST)
+
+# Standard library headers and location
+# Need to change dir locations depending on system and implicit rules
+SYSHDRS		 = /usr/include/math.h \
+		   /usr/include/stdio.h \
+		   /usr/include/stdlib.h \
+		   /usr/include/string.h \
+		   /usr/include/time.h \
+		   /usr/lib/gcc-lib/i386-redhat-linux/3.2/include/float.h
+
+# Make the program binary executable from srcs, objs and dependencies
+# Note that CC is invoked via an implicit rule with CFLAGS
+all:		$(PROGRAM)
+
+$(PROGRAM):     $(OBJS) 
+		@echo "Linking $(PROGRAM) ..."
+		@$(LD) $(LDFLAGS) $(OBJS) $(LIBS) -o $(PROGRAM)
+		@echo "done"
+
+# Commands (lower case) to invoke with make - invoke with "make command"
+
+# Extra precaution for clean on delete
+PHONY:		clean
+
+# Clean (delete) objects
+clean:;		@rm -f $(OBJS) core
+
+# Clobber (delete) objects and main program
+clobber:;	@rm -f $(OBJS) $(PROGRAM) core tags
+
+# Dependencies
+depend:;	@mkmf -f $(MAKEFILE) ROOT=$(ROOT)
+
+# Echo headers and sources to stdout
+echo:;		@echo $(HDRS) $(SRCS)
+
+# Index
+index:;		@ctags -wx $(HDRS) $(SRCS)
+
+# Install
+install:	$(PROGRAM)
+		@echo Installing $(PROGRAM) in $(DEST)
+		@-strip $(PROGRAM)
+		@if [ $(DEST) != . ]; then \
+		(rm -f $(DEST)/$(PROGRAM); $(INSTALL) -f $(DEST) $(PROGRAM)); fi
+
+# Print headers and sources
+print:;		@$(PRINT) $(HDRS) $(SRCS)
+
+# Update tags
+tags:           $(HDRS) $(SRCS); @ctags $(HDRS) $(SRCS)
+
+# Update destination
+update:		$(DEST)/$(PROGRAM)
+
+# Protect Objects in case of make hang/crash
+PRECIOUS:	$(OBJS)
