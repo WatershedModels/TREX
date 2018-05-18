@@ -3,8 +3,8 @@
 # zlj@lreis.ac.cn
 cmake_minimum_required(VERSION 3.0)
 ## TREX version
-set(TREX_VER_MAJOR 2011)
-set(TREX_VER_MINOR 0210)
+set(TREX_VER_MAJOR 2017)
+set(TREX_VER_MINOR 1010)
 ## Project name and language
 set(prjname TREX${TREX_VER_MAJOR}rev${TREX_VER_MINOR})
 project(${prjname} C)
