@@ -13,6 +13,10 @@
 #
 # code last updated 29-JUL-2010
 #
+#
+# Code and makefile updated 10-OCT-2017
+#
+#
 # to run, type "make" at command line
 # or "make -f yourMakefilename"
 #
@@ -237,7 +241,7 @@ OBJSSOLIDS	= ChannelSolidsAdvection-r2.o \
 		  ComputeSolidsGroupTransportSums.o \
 		  FloodplainSolidsTransfer.o \
 		  FreeMemorySolids.o \
-		  InitializeSolids-r3.o \
+		  InitializeSolids-r4.o \
 		  NewStateSolids.o \
 		  NewStateStack.o \
 		  OverlandSolidsAdvection-r3.o \
@@ -247,13 +251,13 @@ OBJSSOLIDS	= ChannelSolidsAdvection-r2.o \
 		  OverlandSolidsErosion.o \
 		  OverlandSolidsKinetics.o \
 		  OverlandSolidsMineralization.o \
-		  OverlandSolidsTransportCapacity-r3.o \
+		  OverlandSolidsTransportCapacity-r4.o \
 		  OverlandSolidsYield.o \
 		  PopSedimentStack.o \
 		  PopSoilStack.o \
 		  PushSedimentStack-r2.o \
 		  PushSoilStack.o \
-		  ReadDataGroupC-r5.o \
+		  ReadDataGroupC-r6.o \
 		  ReadInitialSolidsChannelFile.o \
 		  ReadInitialSolidsOverlandFile.o \
 		  ReadSedimentPropertiesFile.o \
@@ -364,7 +368,7 @@ OBJSREST	= Read2DIntegerGrid.o \
 		  Write3DDoubleGrid.o \
 		  Write2DFloatGrid.o \
 		  Write3DFloatGrid.o \
-		  WriteRestart.o \
+		  WriteRestart-r2.o \
 		  WriteSedimentProperties.o \
 		  WriteWaterProperties.o
 

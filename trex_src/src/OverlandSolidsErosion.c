@@ -1,11 +1,11 @@
 /*---------------------------------------------------------------------
-C-  Function:	OverlandSolidsErosion.c
+C-  Function:   OverlandSolidsErosion.c
 C-
-C-	Purpose/	Compute the erosion flux of solids in the overland
-C-	Methods:	plane.
-C-                        
+C-  Purpose/    Compute the erosion flux of solids in the overland
+C-  Methods:    plane.
 C-
-C-  Inputs:	    sfov[][][], tceov[], ayov[][], mexpov[][],
+C-
+C-  Inputs:     sfov[][][], tceov[], ayov[][], mexpov[][],
 C-              hov[][], cell properties...
 C-
 C-  Outputs:    ersflowov[][][], taumaxov[][], taumaxtimeov[][]
@@ -16,33 +16,43 @@ C-  Calls:      None
 C-
 C-  Called by:  SolidsTransport
 C-
-C-	Created:	Mark Velleux
-C-				Department of Civil Engineering
-C-				Colorado State University
-C-				Fort Collins, CO 80523
+C-  Created:    Mark Velleux
+C-              Department of Civil Engineering
+C-              Colorado State University
+C-              Fort Collins, CO 80523
 C-
-C-				John F. England, Jr.
-C-				Bureau of Reclamation
-C-				Flood Hydrology Group, D-8530
-C-				Bldg. 67, Denver Federal Center
+C-              John F. England, Jr.
+C-              Bureau of Reclamation
+C-              Flood Hydrology Group, D-8530
+C-              Bldg. 67, Denver Federal Center
 C-              Denver, CO 80225
 C-
-C-	Date:		29-DEC-2003
+C-  Date:       29-DEC-2003
 C-
-C-	Revised:	Mark Velleux
-C-				HydroQual, Inc.
-C-				1200 MacArthur Boulevard
-C-				Mahwah, NJ 07430
+C-  Revised:    Mark Velleux
+C-              HydroQual, Inc.
+C-              1200 MacArthur Boulevard
+C-              Mahwah, NJ 07430
 C-
-C-	Date:		26-JUN-2008
+C-  Date:       26-JUN-2008
 C-
-C-	Revisions:	Revised calculation of transport rate.
+C-  Revisions:  Revised calculation of transport rate.
 C-
-C-	Revised:
+C-  Revised:    Mark Velleux
+C-              HDR Engineering, Inc.
+C-              1 International Boulevard, 10th Floor, Suite 1000
+C-              Mahwah, NJ 07495
 C-
-C-	Date:	
+C-  Date:       28-SEP-2017
 C-
-C-	Revisions:
+C-  Revisions:  Shear stress partitioning (tau_total to tau_grain)
+C-              using relationship of Al-Hamdan et al. (2012).
+C-
+C-  Revised:
+C-
+C-  Date:
+C-
+C-  Revisions:
 C-
 C----------------------------------------------------------------------*/
 
@@ -79,7 +89,8 @@ void OverlandSolidsErosion()
 		gammaw,		//unit weight of water (N/m3 = kg/m2/s2)
 		densityw,	//density of water (1000) (kg/m3)
 		g,			//gravitational acceleration (9.81) (m/s2)
-		tau;		//average boundary shear stress (N/m2)
+		tau,		//average boundary shear stress (N/m2) (becomes grain shear stress)
+		ftaug;		//fraction of total shear stress acting on grains (dimensionless)
 
 	float
 		epsilon,		//erosion amount (kg/m2)
@@ -175,12 +186,24 @@ void OverlandSolidsErosion()
 						+ pow(sfov[i][j][5], 2.0)				//South component
 						+ pow(sfov[i][j][7], 2.0)));			//West component
 
-					//Compute shear stress...
+					//Compute total hydrodynamic shear stress...
 					//
 					// tau = gammaw * rh * sf = cdrag * rho * velocity^2
 					//
-					//Shear stress (tau) (N/m2)
+					//Total shear stress (tau) (N/m2)
 					tau = (float)(gammaw * hcell * sf);
+
+					//Parition total shear stress to grain shear stress
+					//
+					//   Note: the min function is used to prevent the grain shear
+					//         stress fraction from exceeded 100% of the total shear
+					//         stress.
+					//
+					//Calculate fraction of total shear stress acting on soil grains
+					ftaug = (float)(Min(0.035 * exp(3.41 * barefracov[iland]), 1.0));
+
+					//Calculate grain shear stress (N/m2)
+					tau = ftaug * tau;
 
 				}	//end if ersovopt > 1
 
@@ -190,8 +213,8 @@ void OverlandSolidsErosion()
 					//Initialize gross deposition flow array for use this time step...
 					ersflowov[isolid][i][j] = 0.0;
 
-					//if the erosion option > 1
-					if(ersovopt > 1)
+					//if the erosion option > 2
+					if(ersovopt > 2)
 					{
 						//Compute erosion flux from excess shear...
 						//
@@ -250,7 +273,7 @@ void OverlandSolidsErosion()
 
 						}	//end if cncopt[isolid] = 0
 					}
-					else	//else ersovopt <= 1
+					else	//else ersovopt <= 2
 					{
 						//Compute the transport rate (g/s)
 						//
@@ -304,8 +327,8 @@ void OverlandSolidsErosion()
 						//Note:  While the sum of individual process fluxes
 						//       should never exceed the mass available for
 						//       transport, roundoff error may still exist.
-						//       than zero.  The check below limits the
-						//       transport rate to positive values.
+						//       The check below limits the transport rate
+						//       to positive values.
 						//
 						//if the transport rate is negative
 						if(transrateov[isolid][i][j] < 0.0)
@@ -333,7 +356,7 @@ void OverlandSolidsErosion()
 
 						}	//end if transport capacity > transport rate
 
-					}	//endif ersovopt > 1
+					}	//endif ersovopt > 2
 
 					//compute the bulk density of this solids type (kg/m3)
 					bulkdensity = (float)(spgravity[isolid] * densityw
@@ -384,8 +407,8 @@ void OverlandSolidsErosion()
 
 				//Update shear stress histories...
 				//
-				//if the erosion option for overland cells > 1
-				if(ersovopt > 1)
+				//if the erosion option for overland cells > 2
+				if(ersovopt > 2)
 				{
 					//if the new shear stress > the present shear stress
 					if(newtaumax > taumaxov[i][j])
@@ -398,7 +421,7 @@ void OverlandSolidsErosion()
 
 					}	//end if newtaumax > taumaxov
 
-				}	//end if ersovopt > 1
+				}	//end if ersovopt > 2
 
 			}	//end if imask[][] != nodatavalue
 

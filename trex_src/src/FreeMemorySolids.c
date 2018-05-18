@@ -77,8 +77,8 @@ void FreeMemorySolids()
 	free(spgravity);
 	free (ws);
 
-	//if any of the overland or channel deposition/erosion options > 1
-	if(depovopt > 1 || depchopt > 1 || ersovopt > 1 || erschopt > 1)
+	//if any of the overland or channel deposition options > 1 or 2 erosion options > 2
+	if(depovopt > 1 || depchopt > 1 || ersovopt > 2 || erschopt > 2)
 	{
 		free(cncopt);
 
@@ -89,13 +89,13 @@ void FreeMemorySolids()
 
 		}	//end if depovopt > 1
 
-		//if the overland erosion option > 1
-		if(ersovopt > 1)
+		//if the overland erosion option > 2
+		if(ersovopt > 2)
 		{
 			free(tceov);
 			free(zageov);
 
-		}	//end if ersovopt > 1
+		}	//end if ersovopt > 2
 
 		//if channels are simulated
 		if(chnopt > 0)
@@ -107,17 +107,17 @@ void FreeMemorySolids()
 
 			}	//end if depchopt > 1
 
-			//if the channel erosion option > 1
-			if(erschopt > 1)
+			//if the channel erosion option > 2
+			if(erschopt > 2)
 			{
 				free(tcech);
 				free(zagech);
 
-			}	//end if erschopt > 1
+			}	//end if erschopt > 2
 
 		}	//end if chnopt > 0
 
-	}	//end if depovopt > 1 || depchopt > 1 || ersovopt > 1 || erschopt > 1
+	}	//end if depovopt > 1 || depchopt > 1 || ersovopt > 2 || erschopt > 2
 
 /*
 	//Free memory for particle name
@@ -146,18 +146,18 @@ void FreeMemorySolids()
 
 	//Free memory for soil erosion parameters
 	//
-	//if the erosion option <= 1
-	if(ersovopt <= 1)
+	//if the erosion option <= 2
+	if(ersovopt <= 2)
 	{
 		//Free memory
 		free(kusle);
 	}
-	else	//else ersovopt > 1
+	else	//else ersovopt > 2
 	{
 		//Free memory for erosion exponent
 		free(mexpov);
 
-	}	//end if ersovopt <= 1
+	}	//end if ersovopt <= 2
 
 	//Free memory for porosity
 	free(porosityov);
@@ -179,19 +179,19 @@ void FreeMemorySolids()
 
 	//Free memory for land use class parameters
 	//
-	//if the overland erosion option <= 1
-	if(ersovopt <= 1)
+	//if the overland erosion option <= 2
+	if(ersovopt <= 2)
 	{
 		//Free memory for land use class parameters
 		free(cusle);
 		free(pusle);
 	}
-	else	//else ersovopt > 1
+	else	//else ersovopt > 2
 	{
 		//Free memory for soil erosion yield
 		free(ayov);
 
-	}	//end if ersovopt <= 1
+	}	//end if ersovopt <= 2
 
 	//Free memory for Manning n and interception
 	free(nmanningov);
@@ -353,8 +353,8 @@ void FreeMemorySolids()
 		free(hlayerch0);	//initial layer thickness (m)
 		free(bwlayerch0);	//initial layer bottom width (m)
 
-		//if the channel erosion option > 1
-		if(erschopt > 1)
+		//if the channel erosion option > 2
+		if(erschopt > 2)
 		{
 			//loop over links
 			for(i=1; i<=nlinks; i++)
@@ -369,7 +369,7 @@ void FreeMemorySolids()
 			free(aych);		//initial layer thickness (m)
 			free(mexpch);	//initial layer bottom width (m)
 
-		}	//end if erschopt > 1
+		}	//end if erschopt > 2
 
 		//Free memory for global channel concentration array
 		//

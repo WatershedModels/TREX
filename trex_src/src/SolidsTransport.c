@@ -94,17 +94,17 @@ void SolidsTransport()
 	if(ersovopt > 0)
 	{
 		//Note: If other transport capacity options (Li et al.,
-		//      Musgrave, etc.) are added, the erschopt values
+		//      Musgrave, etc.) are added, the ersovopt values
 		//      would be inserted here so that the excess shear
 		//      option would be the last (largest) ersovopt value.
 		//
-		//if the capacity limited erosion option is selected
-		if(ersovopt < 2)
+		//if the capacity limited erosion option is selected (K-R or generalized)
+		if(ersovopt <= 2)
 		{
-			//Compute transport capacity for overland plane (K-R, USLE, etc.)
+			//Compute transport capacity for overland plane
 			OverlandSolidsTransportCapacity();
 
-		}	//end if ersovopt < 2
+		}	//end if ersovopt <= 2
 
 		//Compute erosion for overland plane
 		OverlandSolidsErosion();
@@ -155,12 +155,12 @@ void SolidsTransport()
 			//      would be the last (largest) erschopt value.
 			//
 			//if the capacity limited erosion option is selected
-			if(erschopt < 2)
+			if(erschopt <= 2)
 			{
 				//Compute transport capacity for channels (E-H, A-W, etc.)
 				ChannelSolidsTransportCapacity();
 
-			}	//end if erschopt < 2
+			}	//end if erschopt <= 2
 
 			//Compute erosion for channels
 			ChannelSolidsErosion();

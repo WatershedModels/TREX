@@ -74,6 +74,18 @@ C-	Revisions:	Cumulative mass balance calculations were moved to
 C-              ChannelWaterDepth to implement time step option
 C-              (dtopt).
 C-
+C-	Revised:	Mark Velleux
+C-              HDR Engineering
+C-              1 International Boulevard, 10th Floor, Suite 1000
+C-              Mahwah, NJ 07495
+C-
+C-	Date:		15-Dec-2017
+C-
+C-	Revisions:	Added check of discriminant in quadratic equation
+C-              to prevent taking the square root of a negative 
+C               number when calculating the new water depth of
+C-              trapezoidal or triangular channels.
+C-
 C-  Revised:
 C-
 C-	Date:
@@ -217,6 +229,22 @@ void ChannelWaterDepth()
 					//if sslope > 0 (the channel is trapezoidal or triangular)
 					if(sslope > 0)
 					{
+						//Note: the new channel depth for trapizoidal or triangular
+						//      channels is computed using the quadratic equation.
+						//      To prevent taking the square root of a negative number,
+						//      check to see if the discriminant (b^2 - 4ac) is less than
+						//      zero...
+						//
+						//If the discriminant (b^2 - 4ac) is negative
+						if(sqrt(pow(bwch,2.0) - 4.0*sslope*(-achnew)) < 0.0)
+						{
+							//Report error type (negative water depth in channel) and location
+							SimulationError(3, i, j, 0);
+
+							exit(EXIT_FAILURE);	//abort
+
+						}	//end the discriminant (b^2 - 4ac) < 0.0
+
 						//Compute new channel depth (positive root from quadratic eqn)
 						hchnew[i][j] = (float)((-bwch + sqrt(pow(bwch,2.0)
 							- 4.0*sslope*(-achnew)))/(2.0*sslope));

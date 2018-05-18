@@ -180,7 +180,7 @@ void PushSoilStack()
 						elevlayerov[i][j][1] = elevlayerov[i][j][2];
 
 						//loop over solids
-						for(isolid=1; isolid<=nsolids; isolid++)
+						for(isolid=0; isolid<=nsolids; isolid++)
 						{
 							//mass of solids in layer 2 (g)
 							m2 = csedov[isolid][i][j][2] * v2;
@@ -283,7 +283,7 @@ void PushSoilStack()
 							elevlayerov[i][j][k-1] = elevlayerov[i][j][k];
 
 							//loop over solids
-							for(isolid=1; isolid<=nsolids; isolid++)
+							for(isolid=0; isolid<=nsolids; isolid++)
 							{
 								//push solids concentration (g/m3)
 								csedov[isolid][i][j][k-1] = csedov[isolid][i][j][k];
@@ -535,7 +535,7 @@ void PushSoilStack()
 						//Assign concentrations to the new surface layer...
 						//
 						//loop over solids
-						for(isolid=1; isolid<=nsolids; isolid++)
+						for(isolid=0; isolid<=nsolids; isolid++)
 						{
 							//Assign solids concentrations (g/m3)
 							csedov[isolid][i][j][ilayer] = csedov[isolid][i][j][ilayer-1];

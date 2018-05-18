@@ -272,6 +272,12 @@ extern float
 	*pusle,				//P factor in USLE (Universal Soil Loss Equation) [iland]
 	*vcov,				//critical velocity for erosion overland (m/s) [isoil]
 
+	*ktranscapov,		//coefficient for overland transport capacity: qs = k Q^betas Sf^gammas
+	*betasov,			//exponent for unit flow in generalized overland transport capacity
+	*gammasov,			//exponent for friction slope in generalized overland transport capacity
+	*barefracov,		//bare soil fraction for this land use class (for shear stress partitioning)
+	*tcwexpov,			//weighting exponent to apportion transport capcity by grain size (dstar ^ tcwexpov)
+
 	*porosityov,		//overland soil porosity (dimensionless) [isoil]
 
 	*tcdov,				//critical shear stress for deposition overland (pdep) (N/m2) [isolid]

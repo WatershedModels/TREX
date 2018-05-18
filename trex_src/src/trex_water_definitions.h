@@ -278,7 +278,7 @@ float
 
 	**storagedepth,		//depression storage depth in overland plane
 	
-	*nmanningov,		//Manning's n value in the overland plane
+	*nmanningov,		//Manning n value in the overland plane
 	*interceptionclass,	//interception depth for a land use class
 
 	*khsoil,			//Hydraulic Conductivity of soil
@@ -338,7 +338,7 @@ float
 	**bwidth,			//bottom width
 	**sideslope,		//sideslope
 	**hbank,			//channel bank height of channel (distance from bed to top of bank)
-	**nmanningch,		//manning's n roughness coefficient for channels
+	**nmanningch,		//Manning n roughness coefficient for channels
 	**sinuosity,		//channel sinuosity
 	**deadstoragedepth,	//channel dead storage depth (m)
 	**chanlength,		//length of channel element (m) (link/node)

@@ -1,11 +1,11 @@
 /*---------------------------------------------------------------------
-C-  Function:	ChannelSolidsErosion.c
+C-  Function:   ChannelSolidsErosion.c
 C-
-C-	Purpose/	Compute the erosion flux of solids in the channel
-C-	Methods:	network.
-C-                        
+C-  Purpose/    Compute the erosion flux of solids in the channel
+C-  Methods:    network.
 C-
-C-  Inputs:	    sfch[][], tcech[], aych[][], mexpch[][],
+C-
+C-  Inputs:     sfch[][], tcech[], aych[][], mexpch[][],
 C-              hch[][], channel properties...
 C-
 C-  Outputs:    ersflowch[][][], taummaxch[][], taumaxtimech[][]
@@ -16,33 +16,54 @@ C-  Calls:      None
 C-
 C-  Called by:  SolidsTransport
 C-
-C-	Created:	Mark Velleux
-C-				Department of Civil Engineering
-C-				Colorado State University
-C-				Fort Collins, CO 80523
+C-  Created:    Mark Velleux
+C-              Department of Civil Engineering
+C-              Colorado State University
+C-              Fort Collins, CO 80523
 C-
-C-				John F. England, Jr.
-C-				Bureau of Reclamation
-C-				Flood Hydrology Group, D-8530
-C-				Bldg. 67, Denver Federal Center
+C-              John F. England, Jr.
+C-              Bureau of Reclamation
+C-              Flood Hydrology Group, D-8530
+C-              Bldg. 67, Denver Federal Center
 C-              Denver, CO 80225
 C-
-C-	Date:		29-DEC-2003
+C-  Date:       29-DEC-2003
 C-
-C-	Revised:	Mark Velleux
-C-				HydroQual, Inc.
-C-				1200 MacArthur Boulevard
-C-				Mahwah, NJ 07430
+C-  Revised:    Mark Velleux
+C-              HydroQual, Inc.
+C-              1200 MacArthur Boulevard
+C-              Mahwah, NJ 07430
 C-
-C-	Date:		26-JUN-2008
+C-  Date:       26-JUN-2008
 C-
-C-	Revisions:	Revised calculation of transport rate.
+C-  Revisions:  Revised calculation of transport rate.
 C-
-C-	Revised:
+C-  Revised:    Mark Velleux
+C-              HDR Engineering, Inc.
+C-              1 International Boulevard, 10th Floor, Suite 1000
+C-              Mahwah, NJ 07495
 C-
-C-	Date:	
+C-  Date:       28-SEP-2017
 C-
-C-	Revisions:
+C-  Revisions:  Shear stress partitioning (tau_total to tau_grain)
+C-              using relationship of Julien (2010).
+C-
+C-  Revised:    Mark Velleux
+C-              HDR Engineering, Inc.
+C-              1 International Boulevard, 10th Floor, Suite 1000
+C-              Mahwah, NJ 07495
+C-
+C-  Date:       02-DEC-2017
+C-
+C-  Revisions:  Revised controls so that grain shear partitioning
+C-              occurs when erschopt > 1 (allows for originl TREX
+C-              behavior (where tau = tau total).
+C-
+C-  Revised:
+C-
+C-  Date:
+C-
+C-  Revisions:
 C-
 C----------------------------------------------------------------------*/
 
@@ -78,7 +99,12 @@ void ChannelSolidsErosion()
 		gammaw,		//unit weight of water (N/m3 = kg/m2/s2)
 		densityw,	//density of water (1000) (kg/m3)
 		g,			//gravitational acceleration (9.81) (m/s2)
-		tau;		//average boundary shear stress (N/m2)
+		tau,		//average boundary shear stress (N/m2) (becomes grain shear stress)
+		d50,		//mean diameter of particles comprising the bed surface (m)
+		fgrain,		//grain fraction (dimensionless)
+		delta,		//average height of bedforms (m)
+		lambda,		//average length of bedforms (m)
+		ftaug;		//fraction of total shear stress acting on grains (dimensionless)
 
 	float
 		epsilon,		//erosion amount (kg/m2)
@@ -152,18 +178,76 @@ void ChannelSolidsErosion()
 			//set friction slope (dimensionless)
 			sf = (float)(fabs(sfch[i][j]));
 
-			//Compute shear stress...
+			//Compute total hydrodynamic shear stress...
 			//
 			// tau = gammaw * rh * sf = cdrag * rho * velocity^2
 			//
 			//Shear stress (tau) (N/m2)
 			tau = (float)(gammaw * rh * sf);
 
-			//compute present water column volume (m3) (at time t)
-			watervol = achcross * chanlength[i][j];
-
 			//set the surface layer number
 			ilayer = nstackch[i][j];
+
+			//if channel erosion option > 1 and channel water depth > zero
+			if(erschopt > 1 && hchan > 0.0)
+			{
+				//Calculate d50 (mean diameter of particles in bed) (m)
+				//
+				//initialize the mean particle diameter (mass-weighted mean across all solids types)
+				d50 = 0.0;
+
+				//Note:  csedch[0][][][] is the total solids concentration
+				//       (sum of all solids types) for this node/layer.
+				//
+				//if the total bed solids concentration > zero
+				if(csedch[0][i][j][ilayer] > 0.0)
+				{
+					//Loop over solids
+					for(isolid=1; isolid<=nsolids; isolid++)
+					{
+						//compute the contribution of this solids type to d50
+						d50 = d50 + ds[isolid] * csedch[isolid][i][j][ilayer] / csedch[0][i][j][ilayer];
+
+					}	//end loop over solids
+				}
+				else	//else csedch[0][i][j][ilayer] = 0  (should only occur when the stack is an empty)
+				{
+					//set d50 to 0.001 m (1 mm)
+					d50 = (float)(0.001);
+
+				}	//end if csedch[0][i][j][ilayer] > 0
+
+				//Calculate grain friction estimate
+				fgrain = (float)(0.32 * pow(d50/hchan, 1.0/3.0));
+
+				//Calculate bedform dimensions...
+				//
+				//Calculate approximate average height of bedforms (delta) (m)
+				delta = (float)(2.5 * pow(hchan, 0.7) * pow(d50, 0.3));
+
+				//   Note: the min function is used to prevent the bedform
+				//         length from being zero to avoid divide by zero
+				//         errors when calculating the grain shear fraction.
+				//
+				//Calculate approximate average length of bedforms (lambda) (m)
+				lambda = (float)(Min(6.5 * hchan, 1000.0));  //use 1000 meters as upper bound for lambda
+
+				//Parition total shear stress to grain shear stress
+				//
+				//   Note: the min function is used to prevent the grain shear
+				//         stress fraction from exceeded 100% of the total shear
+				//         stress.
+				//
+				//Calculate fraction of total shear stress acting on sediment grains
+				ftaug = (float)(Min(fgrain / (fgrain + delta / lambda), 1.0));
+
+				//Calculate grain shear stress (N/m2)
+				tau = ftaug * tau;
+
+			}	//endif erschopt > 1
+
+			//compute present water column volume (m3) (at time t)
+			watervol = achcross * chanlength[i][j];
 
 			//loop over number of solids types
 			for(isolid=1; isolid<=nsolids; isolid++)
@@ -171,8 +255,8 @@ void ChannelSolidsErosion()
 				//Initialize gross erosion flow array for use this time step...
 				ersflowch[isolid][i][j] = 0.0;
 
-				//if the erosion option > 1
-				if(erschopt > 1)
+				//if the erosion option > 2
+				if(erschopt > 2)
 				{
 					//Compute erosion flux from excess shear...
 					//
@@ -231,7 +315,7 @@ void ChannelSolidsErosion()
 
 					}	//end if cncopt[isolid] = 0
 				}
-				else	//else erschopt <= 1
+				else	//else erschopt <= 2
 				{
 					//Compute the transport rate (g/s)
 					//
@@ -277,8 +361,8 @@ void ChannelSolidsErosion()
 					//Note:  While the sum of individual process fluxes
 					//       should never exceed the mass available for
 					//       transport, roundoff error may still exist.
-					//       than zero.  The check below limits the
-					//       transport rate to positive values.
+					//       The check below limits the transport rate
+					//       to positive values.
 					//
 					//if the transport rate is negative
 					if(transratech[isolid][i][j] < 0.0)
@@ -306,7 +390,7 @@ void ChannelSolidsErosion()
 
 					}	//end if transport capacity > transport rate
 
-				}	//endif erschopt > 1
+				}	//endif erschopt > 2
 
 				//compute the bulk density of this solids type (kg/m3)
 				bulkdensity = (float)(spgravity[isolid] * densityw
@@ -357,8 +441,8 @@ void ChannelSolidsErosion()
 
 			//Update shear stress histories...
 			//
-			//if the erosion option for channels > 1
-			if(erschopt > 1)
+			//if the erosion option for channels > 2
+			if(erschopt > 2)
 			{
 				//if the new shear stress > the present shear stress
 				if(newtaumax > taumaxch[i][j])
@@ -371,7 +455,7 @@ void ChannelSolidsErosion()
 
 				}	//end if newtaumax > taumaxch
 
-			}	//end if erschopt > 1
+			}	//end if erschopt > 2
 
 		}	//end loop over nodes
 
