@@ -65,4 +65,6 @@ In order to make it easier to track code changes and keep up with newer revision
 
 # 4. Changelog
 
++ 05/18/2018: Update the source code to version 101017.
+
 + 10/12/2017: initial by the source code updated in 2/10/2011.
