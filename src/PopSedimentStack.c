@@ -102,7 +102,7 @@ void PopSedimentStack()
 				totalvolume = vlayerch[i][j][ilayer] + vlayerch[i][j][ilayer-1];
 
 				//loop over solids
-				for(isolid=1; isolid<=nsolids; isolid++)
+				for(isolid=0; isolid<=nsolids; isolid++)
 				{
 					//compute residual solids mass (g)
 					residualmass = csedch[isolid][i][j][ilayer]
@@ -263,7 +263,7 @@ void PopSedimentStack()
 				vlayerchnew[i][j][ilayer] = 0.0;
 
 				//loop over solids
-				for(isolid=1; isolid<=nsolids; isolid++)
+				for(isolid=0; isolid<=nsolids; isolid++)
 				{
 					//set the solids concentration to zero
 					csedch[isolid][i][j][ilayer] = 0.0;

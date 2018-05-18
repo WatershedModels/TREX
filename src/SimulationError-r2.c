@@ -217,9 +217,22 @@ void SimulationError(int simerrorno, int ierr, int jerr, int itype)
 		fprintf(errorfile_fp,"Channel row: %d  column: %d\n",
 			ichnrow[ierr][jerr], ichncol[ierr][jerr]);
 
-		//Write current value of depth in channel (link/node)
-		fprintf(errorfile_fp,
-			"Ending water depth in this link/node is: %e m.\n", hchnew[ierr][jerr]);
+		//if the channel is trapezoidal or triangular (not rectangular)
+		if(sideslope[ierr][jerr] > 0)
+		{
+			//Write current value of discriminant (link/node)
+			fprintf(errorfile_fp,
+				"Channel is trapezoidal or triangular and discriminant is less than zero.\n");
+			fprintf(errorfile_fp,
+				"  New water depth in channel cannot be determined (square root of negative number)");
+		}
+		else	//else the channel is rectangular (sideslope = 0, it cannot be negative)
+		{
+			//Write current value of depth in channel (link/node)
+			fprintf(errorfile_fp,
+				"Ending water depth in this link/node is: %e m.\n", hchnew[ierr][jerr]);
+
+		}	//end if the channel is trapezoidal or triangular (sideslope[][] > 0)...
 
 		//Write prior value of water depth in channel (link/node)
 		fprintf(errorfile_fp,

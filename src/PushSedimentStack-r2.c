@@ -3,14 +3,14 @@ C-  Function:	PushSedimentStack.c
 C-
 C-	Purpose/	Compute the downward re-indexing of solids and chemicals
 C-	Methods:	in the sediment stack of the channel network.
-C-                        
+C-
 C-              Volume is conserved.  The surface area between layers
 C-              can differ.  When the maximum volume trigger is reached
 C-              the surface layer is split into two, a portion of the
 C-              layer volume is pushed down the stack with the remaining
 C-              becomes the new surface layer.  The new surface layer
 C-              thickness is be computed from the new layer volume and
-C-              surface area.  Because the surface area can differ from 
+C-              surface area.  Because the surface area can differ from
 C-              layer to layer, the total thickness of the new surface
 C-              layer and old surface layer (after the split) may not
 C-              equal the thickness of the one layer before the split.
@@ -59,7 +59,7 @@ C-	Revisions:	Revised double precision calculations for mass
 C-
 C-	Revised:
 C-
-C-	Date:	
+C-	Date:
 C-
 C-	Revisions:
 C-
@@ -187,7 +187,7 @@ void PushSedimentStack()
 					elevlayerch[i][j][1] = elevlayerch[i][j][2];
 
 					//loop over solids
-					for(isolid=1; isolid<=nsolids; isolid++)
+					for(isolid=0; isolid<=nsolids; isolid++)
 					{
 						//mass of solids in layer 2 (g)
 						m2 = csedch[isolid][i][j][2] * v2;
@@ -235,7 +235,7 @@ void PushSedimentStack()
 
 							//chemical concentration in layer 1 after collapse (g/m3)
 							cchemch[ichem][i][j][1] = (float)(combinedmass / combinedvolume);
-						
+
 							//Update mass balance terms...
 							//
 							//Note:  For the purpose of mass balance accounting,
@@ -265,7 +265,7 @@ void PushSedimentStack()
 					//       at the top of the stack (nstackch[][]).  The
 					//       number of stack elements is then decremented
 					//       by one: nstackch[][] = nstackch[][] - 1...
-					//       
+					//
 					//Move remaining layers down one element in the stack...
 					//
 					//loop over pushed layers
@@ -296,7 +296,7 @@ void PushSedimentStack()
 						elevlayerch[i][j][k-1] = elevlayerch[i][j][k];
 
 						//loop over solids
-						for(isolid=1; isolid<=nsolids; isolid++)
+						for(isolid=0; isolid<=nsolids; isolid++)
 						{
 							//push solids concentration (g/m3)
 							csedch[isolid][i][j][k-1] = csedch[isolid][i][j][k];
@@ -351,7 +351,7 @@ void PushSedimentStack()
 								//compute the buried mass entering the lower pushed layer (kg)
 								burchemchinmass[ichem][i][j][k-1] =
 									burchemchinmass[ichem][i][j][k-1] + tmass;
-						
+
 							}	//end loop over chemicals
 
 						}	//end if ksim > 2
@@ -570,7 +570,7 @@ void PushSedimentStack()
 					//Assign concentrations to the new surface layer...
 					//
 					//loop over solids
-					for(isolid=1; isolid<=nsolids; isolid++)
+					for(isolid=0; isolid<=nsolids; isolid++)
 					{
 						//Assign solids concentrations (g/m3)
 						csedch[isolid][i][j][ilayer] = csedch[isolid][i][j][ilayer-1];

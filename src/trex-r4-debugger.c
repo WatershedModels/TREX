@@ -485,7 +485,7 @@ int main(int argc, char *argv[])
 	//Write summary file
 	WriteSummary();
 
-	//Developer's Note:  The memory deallocation routined are "stale"
+	//Developer's Note:  The memory deallocation routines are "stale"
 	//                   and cause segmentation faults when executed.
 	//                   For now, the call to FreeMemory is commented
 	//                   out.  However, the set of FreeMemory modules

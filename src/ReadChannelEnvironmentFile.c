@@ -211,8 +211,8 @@ void ReadChannelEnvironmentFile(int pid, float conv, float scale)
 		{
 			//Read option dependent properties...
 			//
-			//if the channel erosion option <= 1
-			if(chanersopt <= 1)
+			//if the channel erosion option <= 2
+			if(chanersopt <= 2)
 			{
 				//Write label for environmental properties to file
 				fprintf(echofile_fp, "\nLink  Node  NSTACK");
@@ -229,7 +229,7 @@ void ReadChannelEnvironmentFile(int pid, float conv, float scale)
 				fprintf(echofile_fp, "%4d  %4d  %5d\n",
 					i, j, nstackch0[i][j]);
 			}
-			else	//else chanersopt > 1
+			else	//else chanersopt > 2
 			{
 				//Write label for environmental properties to file
 				fprintf(echofile_fp, "\nLink  Node  NSTACK  aych (g/m2)  mexpch");
@@ -250,7 +250,7 @@ void ReadChannelEnvironmentFile(int pid, float conv, float scale)
 				fprintf(echofile_fp, "%4d  %4d  %5d  %11.3f  %6.3f\n",
 					i, j, nstackch0[i][j], aych[i][j], mexpch[i][j]);
 
-			}	//end if erschopt <= 1
+			}	//end if erschopt <= 2
 
 			//loop over number of layers in reverse order
 			for(k=nstackch0[i][j]; k>=1; k--)

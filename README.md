@@ -3,4 +3,6 @@ TREX watershed model source code from [CSU](http://www.engr.colostate.edu/~pierr
 
 Changlog:
 
++ 05/18/2018: Update the source code to version 101017.
+
 + 10/12/2017: initial by the source code updated in 2/10/2011.

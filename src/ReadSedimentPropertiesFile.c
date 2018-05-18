@@ -149,13 +149,13 @@ void ReadSedimentPropertiesFile()
 	bwlayerch0 = (float ***)malloc((nlinks+1) * sizeof(float **));	//initial layer bottom width (m)
 
 	//if the channel erosion option > 1
-	if(erschopt > 1)
+	if(erschopt > 2)
 	{
 		//Allocate initial memory for sediment erosion properties
 		aych = (float **)malloc((nlinks+1) * sizeof(float *));	//initial layer thickness (m)
 		mexpch = (float **)malloc((nlinks+1) * sizeof(float *));	//initial layer bottom width (m)
 
-	}	//end if erschopt > 1
+	}	//end if erschopt > 2
 
 	//if the channel transmission loss option > 0
 	if(ctlopt > 0)
@@ -176,14 +176,14 @@ void ReadSedimentPropertiesFile()
 		hlayerch0[i] = (float **)malloc((nnodes[i]+1) * sizeof(float *));	//initial layer thickness (m)
 		bwlayerch0[i] = (float **)malloc((nnodes[i]+1) * sizeof(float *));	//initial layer bottom width (m)
 
-		//if the channel erosion option > 1
-		if(erschopt > 1)
+		//if the channel erosion option > 2
+		if(erschopt > 2)
 		{
 			//Allocate additional memory for sediment erosion properties
 			aych[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));	//initial layer thickness (m)
 			mexpch[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));	//initial layer bottom width (m)
 
-		}	//end if erschopt > 1
+		}	//end if erschopt > 2
 
 		//if the channel transmission loss option > 0
 		if(ctlopt > 0)
@@ -355,13 +355,13 @@ void ReadSedimentPropertiesFile()
 
 			//Write next part of label...
 			//
-			//if the channel erosion option > 1
-			if(erschopt > 1)
+			//if the channel erosion option > 2
+			if(erschopt > 2)
 			{
 				//Write label for sediment properties to file
 				fprintf(echofile_fp, "  aych (g/m2)  mexpch");
 
-			}	//end if erschopt > 1
+			}	//end if erschopt > 2
 
 			//if the channel transmission loss option > 0
 			if(ctlopt > 0)
@@ -375,12 +375,12 @@ void ReadSedimentPropertiesFile()
 			//
 			fprintf(echofile_fp, "\n----  ----  ------");
 
-			//if the channel erosion option > 1
-			if(erschopt > 1)
+			//if the channel erosion option > 2
+			if(erschopt > 2)
 			{
 				fprintf(echofile_fp, "  -----------  ------");
 
-			}	//end if erschopt > 1
+			}	//end if erschopt > 2
 
 			//if the channel transmission loss option > 0
 			if(ctlopt > 0)
@@ -407,8 +407,8 @@ void ReadSedimentPropertiesFile()
 
 			//Read option dependent properties...
 			//
-			//if the channel erosion option > 1
-			if(chanersopt > 1)
+			//if the channel erosion option > 2
+			if(chanersopt > 2)
 			{
 				//Record 4b
 				fscanf(sedimentpropertiesfile_fp, "%s %f %s %f",	//read
@@ -421,7 +421,7 @@ void ReadSedimentPropertiesFile()
 				fprintf(echofile_fp, "  %11.3f  %6.3f",
 					aych[i][j], mexpch[i][j]);
 
-			}	//end if erschopt <= 1
+			}	//end if erschopt > 2
 
 			//if channel transmission losses are simulated
 			if(chanctlopt > 0)

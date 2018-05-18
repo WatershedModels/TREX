@@ -116,7 +116,7 @@ void ReadChannelFile()
 	bwidth = (float **)malloc((nlinks+1) * sizeof(float *));			//bottom width (m)
 	sideslope = (float **)malloc((nlinks+1) * sizeof(float *));			//sideslope (dimensionless)
 	hbank = (float **)malloc((nlinks+1) * sizeof(float *));				//channel bank height (distance from bed to top of bank) (m)
-	nmanningch = (float **)malloc((nlinks+1) * sizeof(float *));		//manning's n roughness coefficient for channels (n units)
+	nmanningch = (float **)malloc((nlinks+1) * sizeof(float *));		//Manning n roughness coefficient for channels (n units)
 	sinuosity = (float **)malloc((nlinks+1) * sizeof(float *));			//channel sinuosity (dimensionless)
 	deadstoragedepth = (float **)malloc((nlinks+1) * sizeof(float *));	//channel dead storage depth (m)
 	twidth = (float **)malloc((nlinks+1) * sizeof(float *));			//top width at top of bank (m)
@@ -171,7 +171,7 @@ void ReadChannelFile()
 		bwidth[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));				//bottom width
 		sideslope[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));			//sideslope
 		hbank[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));				//channel bank height of channel (distance from bed to top of bank)
-		nmanningch[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));			//manning's n roughness coefficient for channels
+		nmanningch[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));			//Manning n roughness coefficient for channels
 		sinuosity[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));			//channel sinuosity
 		deadstoragedepth[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));	//channel dead storage depth (m)
 		twidth[i] = (float *)malloc((nnodes[i]+1) * sizeof(float));				//top width
@@ -184,7 +184,7 @@ void ReadChannelFile()
 				&bwidth[i][j],				//bottom width (m)
 				&sideslope[i][j],			//sideslope (dimensionless)
 				&hbank[i][j],				//channel bank height (distance from bed to top of bank) (m)
-				&nmanningch[i][j],			//manning's n roughness coefficient for channels
+				&nmanningch[i][j],			//Manning n roughness coefficient for channels
 				&sinuosity[i][j],			//channel sinuosity (dimensionless)
 				&deadstoragedepth[i][j]);	//channel dead storage depth (m)
 

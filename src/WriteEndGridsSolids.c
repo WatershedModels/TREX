@@ -154,7 +154,7 @@ void WriteEndGridsSolids(int gridcount)
 		//                   conversion factor for Grid() to 100.0.  It
 		//                   can be scaled to meters or mm by changing
 		//                   the conversion factor argument to 1.0 for
-		//                   meters or or 1000.0 for mm.
+		//                   meters or 1000.0 for mm.
 		//
 		//Write grid of net elevation change (cm)
 		Grid(netelevationgrid, netelevation, 100.0, gridcount);

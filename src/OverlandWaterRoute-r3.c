@@ -401,7 +401,7 @@ void OverlandWaterRoute()
 							//
 							//  q = alpha * (h)^beta
 							//
-							//  alpha = (sf^0.5) / n  (n is Manning's n)
+							//  alpha = (sf^0.5) / n  (n is Manning n)
 							//
 							//  beta = 5/3 = 1.667  (constant)
 							//
