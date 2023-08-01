@@ -7,9 +7,5 @@ set_target_properties(trex PROPERTIES
   RELEASE_POSTFIX "${TREX_VER_MAJOR}Rev${TREX_VER_MINOR}Rel"
   DEBUG_POSTFIX "${TREX_VER_MAJOR}Rev${TREX_VER_MINOR}Dbg"
 )
+set_property(TARGET trex PROPERTY C_STANDARD 11)
 install(TARGETS trex RUNTIME DESTINATION ${INSTALL_DIR})
-### For CLion to implement the "make install" command
-add_custom_target(install_${PROJECT_NAME}
-        $(MAKE) install
-        DEPENDS trex
-        COMMENT "Installing ${PROJECT_NAME}")

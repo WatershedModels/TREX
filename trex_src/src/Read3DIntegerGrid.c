@@ -149,7 +149,7 @@ void Read3DIntegerGrid(char name[], int ***gridvalue, int ilayer)
 		}	//end loop over grid columns
 /*
 		}	//end loop over grid columns
-/*
+
 		//Start a new line for the next row of data in the echo file 
 		fprintf(echofile_fp, "\n");
 */
